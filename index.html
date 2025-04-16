@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> IBP FAMILY TREE</title>
+    <link rel="website icon" type="png" href="aa.jfif">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+        
+        :root {
+            --primary-color: #5d4e7b;
+            --secondary-color: #ff9a76;
+            --accent-color: #f8d49a;
+            --text-color: #333;
+            --light-bg: #f8f5f2;
+            --dark-bg: #2d2833;
+            --card-shadow: 0 15px 30px rgba(0,0,0,0.12);
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            --bloom-effect: radial-gradient(circle at center, rgba(253,245,230,0.8) 0%, rgba(253,245,230,0) 70%);
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+        }
+        
+        .header {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, var(--primary-color), #7a5c9e);
+            color: white;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(93, 78, 123, 0.3);
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bloom-effect);
+            z-index: 1;
+        }
+        
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin: 0;
+            font-weight: 700;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            animation: fadeInDown 1s ease-out;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 1rem auto 0;
+            position: relative;
+            z-index: 2;
+            animation: fadeIn 1.5s ease-out;
+        }
+        
+        .tree-container {
+            width: 100%;
+            min-height: 70vh;
+            position: relative;
+            overflow: hidden;
+            padding: 2rem 0;
+            background-image: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png');
+        }
+        
+        .tree-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M50 0 L60 40 L100 50 L60 60 L50 100 L40 60 L0 50 L40 40 Z" fill="%235d4e7b" opacity="0.05"/></svg>');
+            background-size: 100px 100px;
+            z-index: 0;
+            opacity: 0.3;
+        }
+        
+        .generation {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+            transition: var(--transition);
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .couple-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .couple-connector {
+            width: 2px;
+            height: 30px;
+            background-color: var(--primary-color);
+            opacity: 0.3;
+        }
+        
+        .parents-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+        
+        .parent-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            width: 180px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            z-index: 2;
+            border: 2px solid var(--secondary-color);
+        }
+        
+        .person-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            width: 200px;
+            padding: 1.8rem 1.2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            animation: floatIn 0.8s ease-out forwards;
+            opacity: 0;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .person-card::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 20px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            z-index: -1;
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .person-card:hover {
+            transform: translateY(-10px) scale(1.05) rotateY(5deg);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+        
+        .person-card:hover::before {
+            opacity: 0.2;
+        }
+        
+        .person-card.active {
+            border: 3px solid var(--secondary-color);
+        }
+        
+        .person-img-container {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1.2rem;
+            position: relative;
+            overflow: hidden;
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+        
+        .parent-img-container {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            position: relative;
+            overflow: hidden;
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .person-card:hover .person-img-container {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .person-img, .parent-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .person-card:hover .person-img {
+            transform: scale(1.05);
+        }
+        
+        .person-name, .parent-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+        
+        .person-card:hover .person-name {
+            color: var(--secondary-color);
+        }
+        
+        .person-relation, .parent-relation {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+        
+        .has-children {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            color: var(--secondary-color);
+            font-weight: 600;
+            opacity: 0;
+            transition: var(--transition);
+            transform: translateY(10px);
+        }
+        
+        .person-card:hover .has-children {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .connector {
+            position: absolute;
+            height: 2px;
+            background-color: var(--primary-color);
+            z-index: 1;
+            transform-origin: left center;
+            opacity: 0.3;
+        }
+        
+        .family-connector {
+            position: relative;
+            width: 100%;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .connector-line {
+            height: 2px;
+            width: 60%;
+            background-color: var(--primary-color);
+            position: relative;
+            opacity: 0.5;
+        }
+        
+        .connector-line::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 20px;
+            background-color: var(--primary-color);
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+        }
+        
+        .nav-buttons {
+            text-align: center;
+            margin: 2rem 0;
+            position: relative;
+            z-index: 3;
+        }
+        
+        .nav-btn {
+            background: linear-gradient(45deg, var(--primary-color), #7a5c9e);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 0 1rem;
+            transition: var(--transition);
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(93, 78, 123, 0.3);
+            position: relative;
+            overflow: hidden;
+            min-width: 120px;
+        }
+        
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .nav-btn:hover {
+            background: linear-gradient(45deg, var(--secondary-color), #ff7e5f);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 154, 118, 0.4);
+        }
+        
+        .nav-btn:hover::before {
+            left: 100%;
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            background: linear-gradient(45deg, #aaa, #ccc);
+        }
+        
+        .memory-section {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 3rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+            transform-style: preserve-3d;
+        }
+        
+        .memory-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bloom-effect);
+            z-index: -1;
+        }
+        
+        .memory-section h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .memory-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--secondary-color);
+            border-radius: 3px;
+        }
+        
+        #memoryContent {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            position: relative;
+        }
+        
+        .floating-leaves {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .leaf {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.7;
+            z-index: 1;
+            animation: floatLeaf linear infinite;
+        }
+        
+        @keyframes floatIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 0.9;
+            }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes floatLeaf {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% {
+                transform: translate(calc(100vw + 100px), calc(100vh + 100px)) rotate(360deg);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        .pulse {
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes drawLine {
+            0% {
+                width: 0;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .person-card {
+                width: 160px;
+                padding: 1.5rem 1rem;
+            }
+            
+            .person-img-container {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .memory-section {
+                padding: 2rem;
+            }
+            
+            .parents-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            
+            .couple-container {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .generation {
+                gap: 1.5rem;
+            }
+            
+            .person-card {
+                width: 140px;
+                padding: 1.2rem 0.8rem;
+            }
+            
+            .nav-btn {
+                padding: 0.8rem 1.2rem;
+                margin: 0 0.5rem;
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-leaves" id="floatingLeaves"></div>
+    
+    <div class="header pulse">
+        <h1>Our Enchanted Family Tree</h1>
+        <p>Discover the branches of our family's story through generations</p>
+    </div>
+    
+    <div class="nav-buttons">
+        <button class="nav-btn" id="backBtn" disabled>← Back</button>
+        <button class="nav-btn" id="homeBtn">🏡 Home</button>
+    </div>
+    
+    <div class="tree-container">
+        <div class="tree-background"></div>
+        <div id="treeContainer">
+            <!-- Generations will be dynamically inserted here -->
+        </div>
+    </div>
+    
+    <div class="memory-section">
+        <h2>Family Memories</h2>
+        <p id="memoryContent">Select a family member to view their precious memories...</p>
+    </div>
+
+    <script>
+        // Enhanced family data with more details
+        const familyData = {
+            id: 'root',
+            name: 'The Founding Generation',
+            children: [
+                {
+                    id: 'brother1',
+                    name: 'RAMVILAS UPADHYAY',
+                    relation: 'Eldest Brother',
+                    image: 'dada.jpeg',
+                    spouse: {
+                        name: 'SHANTI UPADHYAY',
+                        relation: 'Wife',
+                        image: 'dadi.jpeg'
+                    },
+                    children: [
+                        {
+                            id: 'brother1_child1',
+                            name: 'RAJKUMAR UPADHYAY',
+                            relation: 'Son',
+                            image: 'aa.jfif',
+                            spouse: {
+                                name: 'RAJNI UPADHYAY',
+                                relation: 'Wife',
+                                image: 'aa.jfif'
+                            },
+                            children: [
+                                {
+                                    id: 'brother1_grandchild1',
+                                    name: 'SHIVAM UPADHYAY',
+                                    relation: 'Son',
+                                    image: 'aa.jfif',
+                                    memory: "SHIVAM was born in 1998 ."
+                                },
+                                {
+                                    id: 'brother1_grandchild2',
+                                    name: 'SHIVNI UPADHYAY',
+                                    relation: 'Daughter',
+                                    image: 'aa.jfif',
+                                    memory: "Shivani was born in 2000 ."
+                                }
+                            ],
+                            memory: "RAJKUMAR, the eldest son, has been the pillar of the family."
+                        },
+                        {
+                            id: 'brother1_child2',
+                            name: 'Ved prakash',
+                            relation: 'Son',
+                            image: 'aa.jfif',
+                            spouse: {
+                                name: 'kirti UPADHYAY',
+                                relation: 'Wife',
+                                image: 'aa.jfif'
+                            },
+                            children: [
+                                {
+                                    id: 'brother1_grandchild3',
+                                    name: 'Harsh UPadhyay',
+                                    relation: 'Son',
+                                    image: 'aa.jfif',
+                                    memory: "Harsh was born in 2000 "
+                                },
+                                {
+                                    id: 'brother1_grandchild4',
+                                    name: 'Harshita UPadhyay',
+                                    relation: 'Daughter',
+                                    image: 'aa.jfif',
+                                    memory: "Harshita was born in 2010 "
+                                }
+                            ],
+                            memory: "Ved prakash is a pwd officer ."
+                        },
+                        {
+                            id: 'brother1_child2',
+                            name: ' MR PRAKASH UPADHYAY',
+                            relation: 'Son',
+                            image: 'papa.jpeg',
+                            spouse: {
+                                name: 'Bhawana UPADHYAY',
+                                relation: 'Wife',
+                                image: 'teena.jpeg'
+                            },
+                            children: [
+                                {
+                                    id: 'brother1_grandchild3',
+                                    name: 'MR ISHANT UPADHYAY ',
+                                    relation: 'Son',
+                                    image: 'ishu.jpeg',
+                                    memory: "Harsh was born in 2000 "
+                                },
+                                
+                            ],
+                            memory: "prakash is the father of owner of this website ."
+                        },
+                        {
+                            id: 'brother1_child3',
+                            name: 'Rajkumari awasthi',
+                            relation: 'Daughter',
+                            image: 'aa.jfif',
+                            spouse: {
+                                name: 'Govind AWASTHI',
+                                relation: 'Husband',
+                                image: 'aa.jfif'
+                            },
+                            children: [
+                                {
+                                    id: 'brother1_grandchild5',
+                                    name: 'Deepak awasthi',
+                                    relation: 'Son',
+                                    image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=600&w=600',
+                                    memory: "Deepak was born in 2015 and has brought immense joy to the family."
+                                },
+                                {
+                                    id: 'brother1_grandchild6',
+                                    name: 'divyanshu awasthi',
+                                    relation: 'Son',
+                                    image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=600&w=600',
+                                    memory: "Divyanshu was born in 2015 and has brought immense joy to the family."
+                                }
+                            ],
+                            memory: "Rajkumari married into the Awasthi family and maintains strong ties."
+                        }
+                    ],
+                    memory: "RAMBILAS UPADHYAY, the eldest brother, laid the foundation for our family's success."
+                },
+                {
+                    id: 'brother1',
+                    name: 'Kailash UPADHYAY',
+                    relation: '2nd  Brother',
+                    image: 'aa.jfif',
+                    spouse: {
+                        name: 'Kamla UPADHYAY',
+                        relation: 'Wife',
+                        image: 'aa.jfif'
+                    },
+                    children: [
+                        {
+                            id: 'brother1_child1',
+                            name: 'Madan UPADHYAY',
+                            relation: 'Son',
+                            image: 'aa.jfif',
+                            spouse: {
+                                name: 'LAKSHMI UPADHYAY',
+                                relation: 'Wife',
+                                image: 'aa.jfif'
+                            },
+                            children: [
+                                {
+                                    id: 'brother1_grandchild1',
+                                    name: 'KANHA UPADHYAY',
+                                    relation: 'Son',
+                                    image: 'aa.jfif',
+                                    memory: "SHIVAM was born in ---- ."
+                                },
+                                {
+                                    id: 'brother1_grandchild2',
+                                    name: 'KHUSHI UPADHYAY',
+                                    relation: 'Daughter',
+                                    image: 'aa.jfif',
+                                    memory: "Shivani was born in ----."
+                                }
+                            ],
+                            memory: "STILL TO UPDATE THE DATA ,NOT AVAILABLE IN THE DATA BASE ."
+                        },
+                        {
+                            id: 'brother1_child2',
+                            name: 'S.P UPADHYAY ',
+                            relation: 'Son',
+                            image: 'aa.jfif',
+                            spouse: {
+                                name: 'AARTI UPADHYAY',
+                                relation: 'Wife',
+                                image: 'aa.jfif'
+                            },
+                            children: [
+                                {
+                                    id: 'brother1_grandchild3',
+                                    name: 'VEDANSHI UPADHYAY ',
+                                    relation: 'Daughter',
+                                    image: 'aa.jfif',
+                                    memory: "Harsh was born in ---- "
+                                },
+                                {
+                                    id: 'brother1_grandchild4',
+                                    name: 'NOT YET DECIDED ',
+                                    relation: 'Daughter',
+                                    image: 'aa.jfif',
+                                    memory: "Harshita was born in 2025"
+                                }
+                            ],
+                            memory: "S.P  is a 3rd grade teacher ."
+                        },
+                        {
+                            id: 'brother1_child3',
+                            name: 'SUNITA SHARMA ',
+                            relation: 'Daughter',
+                            image: 'aa.jfif',
+                            spouse: {
+                                name: 'GIRRAJ SHARMA ',
+                                relation: 'Husband',
+                                image: 'aa.jfif'
+                            },
+                            children: [
+                                {
+                                    id: 'brother1_grandchild5',
+                                    name: '',
+                                    relation: 'Son',
+                                    image: 'AA.JFIF',
+                                    memory: ""
+                                },
+                                {
+                                    id: 'brother1_grandchild6',
+                                    name: '',
+                                    relation: '',
+                                    image: 'aa.jfif',
+                                    memory: "."
+                                }
+                            ],
+                            memory: "."
+                        },
+                        {
+                            id: 'brother1_child3',
+                            name: 'ANITA ',
+                            relation: 'Daughter',
+                            image: 'aa.jfif',
+                            spouse: {
+                                name: 'SUNIK SHARMA ',
+                                relation: 'Husband',
+                                image: 'aa.jfif'
+                            },
+                            children: [
+                                {
+                                    id: 'brother1_grandchild5',
+                                    name: '',
+                                    relation: '',
+                                    image: 'aa.jfif',
+                                    memory: ""
+                                },
+                                {
+                                    id: 'brother1_grandchild6',
+                                    name: '',
+                                    relation: '',
+                                    image: 'aa.jfif',
+                                    memory: ""
+                                }
+                            ],
+                            memory: "."
+                        }
+                    ],
+                    memory: "RAMBILAS UPADHYAY, the eldest brother, laid the foundation for our family's success."
+                },
+                
+            ]
+        };
+
+        // DOM elements
+        const treeContainer = document.getElementById('treeContainer');
+        const backBtn = document.getElementById('backBtn');
+        const homeBtn = document.getElementById('homeBtn');
+        const memoryContent = document.getElementById('memoryContent');
+        const floatingLeaves = document.getElementById('floatingLeaves');
+
+        // Navigation history
+        let history = [];
+        let currentGeneration = familyData;
+
+        // Create floating leaves
+        function createLeaves() {
+            const leafTypes = [
+                '🍁', '🍂', '🍃', '🌿', '🍀'
+            ];
+            
+            for (let i = 0; i < 15; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                leaf.textContent = leafTypes[Math.floor(Math.random() * leafTypes.length)];
+                leaf.style.left = `${Math.random() * 100}%`;
+                leaf.style.top = `${Math.random() * 100}%`;
+                leaf.style.fontSize = `${Math.random() * 20 + 15}px`;
+                leaf.style.animationDuration = `${Math.random() * 30 + 30}s`;
+                leaf.style.animationDelay = `${Math.random() * 10}s`;
+                floatingLeaves.appendChild(leaf);
+            }
+        }
+
+        // Initialize the tree
+        function initTree() {
+            createLeaves();
+            renderGeneration(currentGeneration);
+        }
+
+        // Find parent of a person in the family tree
+        function findParent(personId, tree = familyData) {
+            if (tree.children) {
+                for (const child of tree.children) {
+                    if (child.id === personId) {
+                        return tree;
+                    }
+                    const foundParent = findParent(personId, child);
+                    if (foundParent) return foundParent;
+                }
+            }
+            return null;
+        }
+
+        // Render a generation with animation
+        function renderGeneration(generationData) {
+            treeContainer.innerHTML = '';
+            
+            // If we're showing someone's children, also show them and their spouse at the top
+            if (generationData.id !== 'root' && generationData.id !== familyData.id) {
+                const parentsDiv = document.createElement('div');
+                parentsDiv.className = 'parents-container';
+                
+                // Create the person card with updated relation
+                const personCard = document.createElement('div');
+                personCard.className = 'parent-card';
+                personCard.innerHTML = `
+                    <div class="parent-img-container">
+                        <img src="${generationData.image}" alt="${generationData.name}" class="parent-img">
+                    </div>
+                    <h3 class="parent-name">${generationData.name}</h3>
+                    <p class="parent-relation">${generationData.spouse ? (generationData.spouse.relation === 'Wife' ? 'Husband' : 'Wife') : generationData.relation}</p>
+                `;
+                
+                // Create spouse card if exists
+                let spouseCard = null;
+                if (generationData.spouse) {
+                    spouseCard = document.createElement('div');
+                    spouseCard.className = 'parent-card';
+                    spouseCard.innerHTML = `
+                        <div class="parent-img-container">
+                            <img src="${generationData.spouse.image}" alt="${generationData.spouse.name}" class="parent-img">
+                        </div>
+                        <h3 class="parent-name">${generationData.spouse.name}</h3>
+                        <p class="parent-relation">${generationData.spouse.relation}</p>
+                    `;
+                }
+                
+                // Add connector line
+                const connectorDiv = document.createElement('div');
+                connectorDiv.className = 'family-connector';
+                connectorDiv.innerHTML = '<div class="connector-line"></div>';
+                
+                parentsDiv.appendChild(personCard);
+                if (spouseCard) parentsDiv.appendChild(spouseCard);
+                
+                treeContainer.appendChild(parentsDiv);
+                treeContainer.appendChild(connectorDiv);
+                
+                // Animate the connector line
+                setTimeout(() => {
+                    const line = document.querySelector('.connector-line');
+                    line.style.animation = 'drawLine 1s ease-out forwards';
+                }, 300);
+            }
+            
+            const generationDiv = document.createElement('div');
+            generationDiv.className = 'generation';
+            
+            if (generationData.children && generationData.children.length > 0) {
+                generationData.children.forEach((person, index) => {
+                    const personCard = createPersonCard(person, index);
+                    generationDiv.appendChild(personCard);
+                });
+            } else {
+                generationDiv.innerHTML = '<p style="text-align: center; color: var(--primary-color); font-size: 1.2rem;">No descendants to show — this branch awaits new leaves</p>';
+            }
+            
+            treeContainer.appendChild(generationDiv);
+            
+            // Update memory section
+            updateMemoryContent(generationData);
+        }
+
+        // Create a person card with animation delay
+        function createPersonCard(person, index) {
+            const card = document.createElement('div');
+            card.className = 'person-card';
+            card.dataset.id = person.id;
+            card.style.animationDelay = `${index * 0.1}s`;
+            
+            card.innerHTML = `
+                <div class="person-img-container">
+                    <img src="${person.image}" alt="${person.name}" class="person-img">
+                </div>
+                <h3 class="person-name">${person.name}</h3>
+                <p class="person-relation">${person.relation}</p>
+                ${person.children && person.children.length > 0 ? '<div class="has-children">▼ Explore descendants ▼</div>' : ''}
+            `;
+            
+            card.addEventListener('click', () => {
+                if (person.children && person.children.length > 0) {
+                    // Add current generation to history before moving forward
+                    history.push(currentGeneration);
+                    backBtn.disabled = false;
+                    
+                    // Animate card click
+                    anime({
+                        targets: card,
+                        scale: 0.9,
+                        opacity: 0,
+                        duration: 300,
+                        easing: 'easeInQuad',
+                        complete: () => {
+                            // Set the clicked person's children as current generation
+                            currentGeneration = {
+                                id: person.id,
+                                name: person.name,
+                                relation: person.spouse ? (person.spouse.relation === 'Wife' ? 'Husband' : 'Wife') : person.relation,
+                                image: person.image,
+                                spouse: person.spouse,
+                                memory: person.memory,
+                                children: person.children
+                            };
+                            
+                            renderGeneration(currentGeneration);
+                        }
+                    });
+                } else {
+                    // Gentle shake animation for cards with no children
+                    anime({
+                        targets: card,
+                        translateX: [0, 10, -10, 0],
+                        duration: 500,
+                        easing: 'easeInOutQuad'
+                    });
+                }
+            });
+            
+            return card;
+        }
+
+        // Update memory content with animation
+        function updateMemoryContent(generationData) {
+            const newContent = generationData.id !== 'root' 
+                ? generationData.memory || "No memories added yet for this family member." 
+                : "Select a family member to view their precious memories...";
+            
+            // Animate memory section update
+            anime({
+                targets: '#memoryContent',
+                opacity: 0,
+                duration: 300,
+                easing: 'easeInQuad',
+                complete: () => {
+                    memoryContent.textContent = newContent;
+                    anime({
+                        targets: '#memoryContent',
+                        opacity: 1,
+                        duration: 600,
+                        easing: 'easeOutQuad'
+                    });
+                }
+            });
+            
+            // Pulse animation for memory section when content changes
+            anime({
+                targets: '.memory-section',
+                scale: [1, 1.02, 1],
+                duration: 800,
+                easing: 'easeInOutQuad'
+            });
+        }
+
+        // Back button functionality
+        backBtn.addEventListener('click', () => {
+            if (history.length > 0) {
+                // Animate current view out
+                anime({
+                    targets: treeContainer.querySelector('.generation'),
+                    opacity: 0,
+                    translateY: 50,
+                    duration: 500,
+                    easing: 'easeInQuad',
+                    complete: () => {
+                        currentGeneration = history.pop();
+                        renderGeneration(currentGeneration);
+                        
+                        if (history.length === 0) {
+                            backBtn.disabled = true;
+                        }
+                    }
+                });
+            }
+        });
+
+        // Home button functionality
+        homeBtn.addEventListener('click', () => {
+            if (currentGeneration.id !== 'root') {
+                // Animate current view out
+                anime({
+                    targets: treeContainer.querySelector('.generation'),
+                    opacity: 0,
+                    translateY: -50,
+                    duration: 500,
+                    easing: 'easeInQuad',
+                    complete: () => {
+                        history = [];
+                        currentGeneration = familyData;
+                        backBtn.disabled = true;
+                        renderGeneration(currentGeneration);
+                    }
+                });
+            }
+        });
+
+        // Initialize the tree when page loads
+        window.addEventListener('DOMContentLoaded', initTree);
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+</body>
+</html>
