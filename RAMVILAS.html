@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> IBP FAMILY TREE</title>
+    <link rel="website icon" type="png" href="aa.jfif">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 10px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .family-tree {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 0;
+            position: relative;
+        }
+
+        .generation {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 15px 0;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .couple {
+            display: flex;
+            margin: 5px;
+            position: relative;
+        }
+
+        .person {
+            background: white;
+            border: 2px solid #4a80f0;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 0 3px;
+            width: 130px;
+            text-align: center;
+            color: #333;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(15px);
+            position: relative;
+            z-index: 2;
+        }
+
+        .person.male {
+            border-color: #4a80f0;
+            background: rgba(74, 128, 240, 0.05);
+        }
+
+        .person.female {
+            border-color: #f04a96;
+            background: rgba(240, 74, 150, 0.05);
+        }
+
+        .person .name {
+            font-weight: bold;
+            font-size: 13px;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .person .surname {
+            font-size: 11px;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Connectors */
+        .connector {
+            position: absolute;
+            background: #4a80f0;
+            height: 2px;
+            width: 10px;
+            top: 50%;
+            left: 100%;
+            z-index: 1;
+        }
+
+        .child-connector {
+            position: absolute;
+            background: #4a80f0;
+            width: 2px;
+            height: 20px;
+            left: 50%;
+            top: 100%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: #4a80f0;
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #3a70e0;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .person {
+                width: 110px;
+                padding: 8px;
+            }
+
+            .generation {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .couple {
+                margin: 5px 0;
+            }
+
+            .connector {
+                display: none;
+            }
+
+            .child-connector {
+                height: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .person {
+                width: 90px;
+                font-size: 12px;
+            }
+
+            .name {
+                font-size: 12px !important;
+            }
+
+            .surname {
+                font-size: 10px !important;
+            }
+
+            h1 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>FAMILY CHART</h1>
+        <div class="family-tree" id="familyTree"></div>
+        <div class="controls">
+            <h1>please do not use these zoom and zoom out button until much needed</h1>
+            <button id="zoomIn">Zoom In (+)</button>
+            <button id="zoomOut">Zoom Out (-)</button>
+            <button id="reset">Reset</button>
+        </div>
+    </div>
+    <div style="text-align: center; margin: 3rem 0;">
+        <button class="nav-btn" onclick="window.location.href='index.html'">home</button>
+        
+    </div>
+    <script>
+        // Family Data
+        const familyData = {
+            brothers: [
+                { name: "RAMVILAS", surname: "UPADHYAY", wife: "SHANTI", wifeSurname: "UPADHYAY" },
+                { name: "KAILASH", surname: "UPADHYAY", wife: "KAMLA", wifeSurname: "UPADHYAY" },
+                { name: "MAHESH", surname: "UPADHYAY", wife: "MANJU", wifeSurname: "UPADHYAY" },
+                { name: "SHANKAR", surname: "UPADHYAY", wife: "KAMLA", wifeSurname: "UPADHYAY" }
+            ],
+            ramvilasChildren: [
+                { 
+                    name: "RAJKUMAR", 
+                    surname: "UPADHYAY", 
+                    spouse: "RAJNI", 
+                    spouseSurname: "UPADHYAY",
+                    children: [
+                        { name: "SHIVAM", gender: "male", surname: "UPADHYAY" },
+                        { name: "SHIVANI", gender: "female", surname: "UPADHYAY" }
+                    ] 
+                },
+                { 
+                    name: "VED PRAKASH", 
+                    surname: "UPADHYAY", 
+                    spouse: "KIRTI", 
+                    spouseSurname: "UPADHYAY",
+                    children: [
+                        { name: "HARSH", gender: "male", surname: "UPADHYAY" },
+                        { name: "HARSHI", gender: "female", surname: "UPADHYAY" }
+                    ] 
+                },
+                { 
+                    name: "PRAKASH", 
+                    surname: "UPADHYAY", 
+                    spouse: "BHAWANA", 
+                    spouseSurname: "UPADHYAY",
+                    children: [
+                        { name: "ISHANT", gender: "male", surname: "UPADHYAY" }
+                    ] 
+                },
+                { 
+                    name: "RAJKUMARI", 
+                    surname: "AWASTHI", 
+                    gender: "female",
+                    spouse: "GOVIND", 
+                    spouseSurname: "AWASTHI",
+                    children: [
+                        { name: "DEEPAK", gender: "male", surname: "AWASTHI" },
+                        { name: "DIVYANSHU", gender: "male", surname: "AWASTHI" }
+                    ] 
+                }
+            ]
+        };
+
+        // Helper Functions
+        function createPerson(name, surname, gender = 'male') {
+            const person = document.createElement('div');
+            person.className = `person ${gender}`;
+            
+            const nameEl = document.createElement('div');
+            nameEl.className = 'name';
+            nameEl.textContent = name;
+            
+            const surnameEl = document.createElement('div');
+            surnameEl.className = 'surname';
+            surnameEl.textContent = surname;
+            
+            person.appendChild(nameEl);
+            person.appendChild(surnameEl);
+            
+            return person;
+        }
+
+        function createCouple(husband, wife) {
+            const couple = document.createElement('div');
+            couple.className = 'couple';
+            
+            const husbandEl = createPerson(husband.name, husband.surname, 'male');
+            const wifeEl = createPerson(wife.name, wife.surname, 'female');
+            
+            couple.appendChild(husbandEl);
+            couple.appendChild(wifeEl);
+            
+            // Add connector between couple (hidden on mobile)
+            if (window.innerWidth > 768) {
+                const connector = document.createElement('div');
+                connector.className = 'connector';
+                husbandEl.appendChild(connector);
+            }
+            
+            return couple;
+        }
+
+        function createGeneration(couples) {
+            const generation = document.createElement('div');
+            generation.className = 'generation';
+            
+            couples.forEach(couple => {
+                generation.appendChild(couple);
+            });
+            
+            return generation;
+        }
+
+        // Build the Family Tree
+        function buildFamilyTree() {
+            const familyTree = document.getElementById('familyTree');
+            familyTree.innerHTML = '';
+            
+            // 1st Generation (Brothers & Wives)
+            const firstGenCouples = familyData.brothers.map(brother => {
+                return createCouple(
+                    { name: brother.name, surname: brother.surname },
+                    { name: brother.wife, surname: brother.wifeSurname }
+                );
+            });
+            
+            const firstGen = createGeneration(firstGenCouples);
+            familyTree.appendChild(firstGen);
+            
+            // 2nd Generation (Ramvilas's Children)
+            const ramvilasCouple = firstGenCouples[0];
+            const childrenCouples = familyData.ramvilasChildren.map(child => {
+                if (child.gender === 'female') {
+                    return createCouple(
+                        { name: child.spouse, surname: child.spouseSurname },
+                        { name: child.name, surname: child.surname }
+                    );
+                } else {
+                    return createCouple(
+                        { name: child.name, surname: child.surname },
+                        { name: child.spouse, surname: child.spouseSurname }
+                    );
+                }
+            });
+            
+            const secondGen = createGeneration(childrenCouples);
+            familyTree.appendChild(secondGen);
+            
+            // Add connectors between 1st & 2nd gen
+            ramvilasCouple.querySelectorAll('.person').forEach(person => {
+                const connector = document.createElement('div');
+                connector.className = 'child-connector';
+                person.appendChild(connector);
+            });
+            
+            // 3rd Generation (Grandchildren)
+            const grandchildrenGroups = [];
+            
+            familyData.ramvilasChildren.forEach((child, index) => {
+                if (child.children?.length) {
+                    const childrenElements = child.children.map(grandchild => {
+                        return createPerson(grandchild.name, grandchild.surname, grandchild.gender);
+                    });
+                    
+                    const grandchildrenGroup = document.createElement('div');
+                    grandchildrenGroup.className = 'couple';
+                    childrenElements.forEach(el => grandchildrenGroup.appendChild(el));
+                    grandchildrenGroups.push(grandchildrenGroup);
+                    
+                    // Add connector between parent and children
+                    const parentCouple = childrenCouples[index];
+                    const connector = document.createElement('div');
+                    connector.className = 'child-connector';
+                    parentCouple.appendChild(connector);
+                }
+            });
+            
+            if (grandchildrenGroups.length) {
+                const thirdGen = createGeneration(grandchildrenGroups);
+                familyTree.appendChild(thirdGen);
+            }
+            
+            // Animate the tree
+            setTimeout(() => {
+                document.querySelectorAll('.person').forEach((person, i) => {
+                    setTimeout(() => {
+                        person.style.opacity = '1';
+                        person.style.transform = 'translateY(0)';
+                    }, i * 100);
+                });
+            }, 300);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            buildFamilyTree();
+            
+            // Zoom Controls
+            let scale = 1;
+            const treeElement = document.querySelector('.family-tree');
+            
+            document.getElementById('zoomIn').addEventListener('click', () => {
+                scale = Math.min(1.5, scale + 0.1);
+                treeElement.style.transform = `scale(${scale})`;
+            });
+            
+            document.getElementById('zoomOut').addEventListener('click', () => {
+                scale = Math.max(0.7, scale - 0.1);
+                treeElement.style.transform = `scale(${scale})`;
+            });
+            
+            document.getElementById('reset').addEventListener('click', () => {
+                scale = 1;
+                treeElement.style.transform = 'scale(1)';
+            });
+
+            // Rebuild tree on resize (for responsive connectors)
+            window.addEventListener('resize', () => {
+                buildFamilyTree();
+            });
+        });
+    </script>
+</body>
+</html>
