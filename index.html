@@ -526,18 +526,6 @@
                 min-width: 100px;
             }
         }
-        @keyframes fall {
-    0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 0;
-    }
-}
-
-      
     </style>
 </head>
 <body>
@@ -546,10 +534,7 @@
     <div class="header pulse">
         <h1>IBP FAMILY TREE</h1>
         <p>Discover the branches of our family's story through generations</p>
-        
     </div>
-    <div id="confettiContainer" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999;"></div>
-    
     
     <div class="nav-buttons">
         <button class="nav-btn" id="backBtn" disabled>← Back</button>
@@ -559,8 +544,6 @@
         <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">🎉 Happy Birthday!</h3>
         <p id="birthdayNames" style="font-size: 1.2rem; color: #333;"></p>
       </div>
-      
-    
     
     <div class="tree-container">
         <div class="tree-background"></div>
@@ -568,8 +551,6 @@
             <!-- Generations will be dynamically inserted here -->
         </div>
     </div>
-    
-    
     <div style="text-align: center; margin: 3rem 0;">
         <button class="nav-btn" onclick="window.location.href='RAMVILAS.html'">RAMBILAS FAMILY</button>
         <button class="nav-btn" onclick="window.location.href='KAILASH.html'">KAILASH FAMILY </button>
@@ -585,8 +566,12 @@
         <button class="nav-btn" onclick="toggleMusic()">🔊 Toggle Music</button>
     </div>
     
-
     
+    <div class="memory-section">
+        <h2>Family Memories</h2>
+        <p id="memoryContent">Select a family member to view their precious memories...</p>
+    </div>
+
     <script>
         // Enhanced family data with more details
         const familyData = {
@@ -1190,115 +1175,59 @@
 
         // Initialize the tree when page loads
         window.addEventListener('DOMContentLoaded', initTree);
+
+
+
+        
     </script>
-
-
-
-
-<!-- 🎈 Confetti Container -->
-
-
-<!-- 🎂 Birthday Banner -->
-
-
-
-<script>
-// 🎂 Birthday List
-const birthdayList = [
-    { name: "ISHANT UPADHYAY", date: "04-17" },
-    { name: "Harshita UPADHYAY", date: "05-17" },
-    { name: "RAJKUMAR UPADHYAY", date: "04-25" },
-    { name: "RAJKUMAR UPADHYAY", date: "04-25" },
-    { name: "RAJKUMAR UPADHYAY", date: "04-25" },
-    { name: "RAJKUMAR UPADHYAY", date: "04-25" }
+    <script>
+        // 🎂 Birthday List
+        const birthdayList = [
+            { name: "ISHANT UPADHYAY", date: "04-17" },
+            { name: "Harshita UPADHYAY", date: "05-17" },
+            { name: "RAJKUMAR UPADHYAY", date: "04-25" },
+            { name: "RAJKUMAR UPADHYAY", date: "04-25" },
+            { name: "RAJKUMAR UPADHYAY", date: "04-25" },
+            { name: "RAJKUMAR UPADHYAY", date: "04-25" }
+        ];
+        
+        // 🎉 Check and Display Birthday
+        function checkTodayBirthdays() {
+            const today = new Date();
+            const mmdd = `${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+        
+            const todayBirthdays = birthdayList.filter(b => b.date === mmdd);
+        
+            if (todayBirthdays.length > 0) {
+                const names = todayBirthdays.map(b => `🎂 ${b.name}`).join('<br>');
+                const banner = document.getElementById("birthdayBanner");
+                const nameContainer = document.getElementById("birthdayNames");
+        
+                nameContainer.innerHTML = names;
+                banner.style.display = "block";
+        
+                // WhatsApp message (optional)
+                const message = `🎉 Today is the birthday of:\n${todayBirthdays.map(b => `🎂 ${b.name}`).join('\n')}`;
+                const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+        
+                launchConfetti(); // Launch confetti if birthday
+            }
+        }
+        
+        // Call this function when your page loads
+        document.addEventListener("DOMContentLoaded", checkTodayBirthdays);
+        </script>
+        <script>function toggleMusic() {
+            const music = document.getElementById("bgMusic");
+            if (music.paused) {
+                music.play();
+            } else {
+                music.pause();
+            }
+        }
+        </script>
     
-];
-
-// 🎉 Check and Display Birthday
-function checkTodayBirthdays() {
-    const today = new Date();
-    const mmdd = `${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-
-    const todayBirthdays = birthdayList.filter(b => b.date === mmdd);
-
-    if (todayBirthdays.length > 0) {
-        const names = todayBirthdays.map(b => `🎂 ${b.name}`).join('<br>');
-        const banner = document.getElementById("birthdayBanner");
-        const nameContainer = document.getElementById("birthdayNames");
-
-        nameContainer.innerHTML = names;
-        banner.style.display = "block";
-
-        // WhatsApp message (optional)
-        const message = `🎉 Today is the birthday of:\n${todayBirthdays.map(b => `🎂 ${b.name}`).join('\n')}`;
-        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-        window.open(whatsappUrl, '_blank');
-
-        launchConfetti(); // Launch confetti if birthday
-    }
-}
-
-// 🎈 Launch Confetti
-function launchConfetti() {
-    const container = document.getElementById("confettiContainer");
-
-    for (let i = 0; i < 30; i++) {
-        const emoji = document.createElement("div");
-        emoji.textContent = ["🎈", "🎉", "🎊"][Math.floor(Math.random() * 3)];
-        emoji.style.position = "absolute";
-        emoji.style.left = `${Math.random() * 100}%`;
-        emoji.style.top = `-${Math.random() * 20 + 5}px`;
-        emoji.style.fontSize = `${Math.random() * 20 + 24}px`;
-        emoji.style.animation = `fall ${Math.random() * 5 + 5}s linear infinite`;
-        container.appendChild(emoji);
-        setTimeout(() => emoji.remove(), 10000);
-    }
-}
-
-
-
-// 📝 Add Comment to Memory Board
-function addComment() {
-    const commentInput = document.getElementById("commentInput");
-    const commentList = document.getElementById("commentList");
-
-    if (commentInput.value.trim()) {
-        const li = document.createElement("li");
-        li.textContent = commentInput.value;
-        li.style.padding = "0.5rem 1rem";
-        li.style.borderBottom = "1px solid #eee";
-        commentList.prepend(li);
-        commentInput.value = "";
-    }
-}
-
-// ✅ Call on Load
-window.addEventListener("DOMContentLoaded", checkTodayBirthdays);
-</script>
-
-<style>
-@keyframes fall {
-    0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 0;
-    }
-}
-</style>
-<script>function toggleMusic() {
-    const music = document.getElementById("bgMusic");
-    if (music.paused) {
-        music.play();
-    } else {
-        music.pause();
-    }
-}
-</script>
-
-  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 </body>
 </html>
