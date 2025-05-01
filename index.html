@@ -526,6 +526,105 @@
                 min-width: 100px;
             }
         }
+        @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    @keyframes confetti {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    @keyframes heart {
+      0% { transform: scale(1); opacity: 0; }
+      50% { transform: scale(1.3); opacity: 1; }
+      100% { transform: scale(1); opacity: 0; }
+    }
+    
+    @keyframes zoomIn {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #f00;
+      opacity: 0;
+      z-index: 10;
+    }
+    
+    .heart {
+      position: absolute;
+      color: red;
+      font-size: 20px;
+      opacity: 0;
+      z-index: 10;
+    }
+    
+    .cake {
+      position: absolute;
+      font-size: 24px;
+      opacity: 0;
+      z-index: 10;
+    }
+    
+    .combined-image {
+      width: 250px;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #8b0000;
+      animation: zoomIn 1s ease-out forwards, float 3s ease-in-out infinite 1s;
+    }
+    
+    @media (max-width: 768px) {
+      .anniversary-image-container img {
+        width: 150px !important;
+        height: 150px !important;
+      }
+      
+      .combined-image {
+        width: 200px !important;
+        height: 200px !important;
+      }
+      
+      .countdown-unit {
+        min-width: 60px !important;
+        padding: 8px !important;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .anniversary-image-container img {
+        width: 120px !important;
+        height: 120px !important;
+        margin-left: 10px !important;
+      }
+      
+      .combined-image {
+        width: 180px !important;
+        height: 180px !important;
+      }
+      
+      .countdown-unit {
+        min-width: 50px !important;
+        padding: 5px !important;
+      }
+    }
+    
+    /* Celebration mode when countdown completes */
+    .celebration-mode {
+      animation: celebrationPulse 1s infinite alternate;
+    }
+    
+    @keyframes celebrationPulse {
+      from { background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%); }
+      to { background: linear-gradient(135deg, #ff0000 0%, #ffff00 50%, #00ff00 100%); }
+    }
     </style>
 </head>
 <body>
@@ -556,6 +655,38 @@
         <button class="nav-btn" onclick="window.location.href='KAILASH.html'">KAILASH FAMILY </button>
         <button class="nav-btn" onclick="window.location.href='MAHESH.html'">MAHESH FAMILY</button>
         <button class="nav-btn" onclick="window.location.href='SHANKAR.html'">SHANKAR FAMILY</button>
+        <!-- Add this as a new section in your HTML where you want it to appear -->
+<section id="anniversary-section" style="background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%); padding: 30px 0; margin: 40px 0; border-top: 3px solid #8b0000; border-bottom: 3px solid #8b0000;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+      <div class="anniversary-content" style="text-align: center; color: #8b0000; font-family: 'Arial', sans-serif;">
+        <h2 style="font-size: clamp(24px, 4vw, 36px); margin-bottom: 15px; text-shadow: 1px 1px 2px rgba(255,255,255,0.7);">🎉 Bhawana & Prakash's 20th Anniversary 🎉</h2>
+        <p style="font-size: clamp(16px, 2.5vw, 20px); margin-bottom: 20px;">Celebrating 20 wonderful years together on May 10th, 2025!</p>
+        
+        <div class="countdown-container" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin: 20px 0;">
+          <div class="countdown-unit" style="background-color: rgba(255,255,255,0.3); border-radius: 8px; padding: 10px; min-width: 70px;">
+            <div class="countdown-number" id="days" style="font-weight: bold; font-size: clamp(24px, 5vw, 32px);">00</div>
+            <div style="font-size: clamp(12px, 2vw, 14px);">Days</div>
+          </div>
+          <div class="countdown-unit" style="background-color: rgba(255,255,255,0.3); border-radius: 8px; padding: 10px; min-width: 70px;">
+            <div class="countdown-number" id="hours" style="font-weight: bold; font-size: clamp(24px, 5vw, 32px);">00</div>
+            <div style="font-size: clamp(12px, 2vw, 14px);">Hours</div>
+          </div>
+          <div class="countdown-unit" style="background-color: rgba(255,255,255,0.3); border-radius: 8px; padding: 10px; min-width: 70px;">
+            <div class="countdown-number" id="minutes" style="font-weight: bold; font-size: clamp(24px, 5vw, 32px);">00</div>
+            <div style="font-size: clamp(12px, 2vw, 14px);">Minutes</div>
+          </div>
+          <div class="countdown-unit" style="background-color: rgba(255,255,255,0.3); border-radius: 8px; padding: 10px; min-width: 70px;">
+            <div class="countdown-number" id="seconds" style="font-weight: bold; font-size: clamp(24px, 5vw, 32px);">00</div>
+            <div style="font-size: clamp(12px, 2vw, 14px);">Seconds</div>
+          </div>
+        </div>
+        
+        <div class="anniversary-image-container" style="position: relative; margin-top: 30px; display: flex; justify-content: center; align-items: center;">
+          <img id="prakash-image" src="papa.jpeg" alt="Prakash" style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%; border: 3px solid #8b0000; animation: float 3s ease-in-out infinite;">
+          <img id="bhawana-image" src="teena.jpeg" alt="Bhawana" style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%; border: 3px solid #8b0000; animation: float 3s ease-in-out infinite 1.5s; margin-left: 20px;">
+        </div>
+      </div>
+    </div>
     </div>
     <audio id="bgMusic" loop>
         <source src="11.mp3" type="audio/mp3">
@@ -1227,7 +1358,147 @@
             }
         }
         </script>
-    
+     <script>
+        // Countdown timer set for May 10, 2025
+        function updateCountdown() {
+          const anniversaryDate = new Date('May 10, 2025 00:00:00').getTime();
+          const now = new Date().getTime();
+          const distance = anniversaryDate - now;
+          
+          // If countdown is finished
+          if (distance < 0) {
+            document.getElementById('anniversary-section').classList.add('celebration-mode');
+            document.querySelector('h2').textContent = "🎉 Happy 20th Anniversary Bhawana & Prakash! 🎉";
+            document.querySelector('.anniversary-content p').textContent = "Today marks 20 wonderful years together!";
+            
+            // Clear all countdown numbers
+            document.getElementById('days').innerHTML = '00';
+            document.getElementById('hours').innerHTML = '00';
+            document.getElementById('minutes').innerHTML = '00';
+            document.getElementById('seconds').innerHTML = '00';
+            
+            // Replace individual images with combined PB image
+            const imageContainer = document.querySelector('.anniversary-image-container');
+            imageContainer.innerHTML = ''; // Remove existing images
+            
+            // Create and add the combined PB image
+            const combinedImage = document.createElement('img');
+            combinedImage.src = 'both.jpeg'; // Update with your PB image path
+            combinedImage.alt = 'Bhawana and Prakash';
+            combinedImage.className = 'combined-image';
+            imageContainer.appendChild(combinedImage);
+            
+            // Increase animation frequency
+            clearInterval(animationInterval);
+            animationInterval = setInterval(() => {
+              createConfetti(imageContainer);
+              createHeart(imageContainer);
+              createCake(imageContainer);
+            }, 100);
+            
+            return;
+          }
+          
+          // Time calculations
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          
+          // Display results
+          document.getElementById('days').innerHTML = days.toString().padStart(2, '0');
+          document.getElementById('hours').innerHTML = hours.toString().padStart(2, '0');
+          document.getElementById('minutes').innerHTML = minutes.toString().padStart(2, '0');
+          document.getElementById('seconds').innerHTML = seconds.toString().padStart(2, '0');
+        }
+        
+        // Animation variables
+        let animationInterval;
+        let container;
+        
+        // Animation effects
+        document.addEventListener('DOMContentLoaded', function() {
+          const prakashImage = document.getElementById('prakash-image');
+          const bhawanaImage = document.getElementById('bhawana-image');
+          container = document.querySelector('.anniversary-image-container');
+          
+          if (prakashImage && bhawanaImage) {
+            // Create floating animations
+            prakashImage.style.animation = 'float 3s ease-in-out infinite';
+            bhawanaImage.style.animation = 'float 3s ease-in-out infinite 1.5s';
+            
+            // Create particles between the images
+            animationInterval = setInterval(() => {
+              createConfetti(container);
+              createHeart(container);
+              createCake(container);
+            }, 300);
+          }
+          
+          // Initialize countdown
+          updateCountdown();
+        });
+        
+        // Update countdown every second
+        setInterval(updateCountdown, 1000);
+        
+        function createConfetti(parentElement) {
+          const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff'];
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.left = Math.random() * 80 + 10 + '%';
+          confetti.style.top = '50%';
+          
+          parentElement.appendChild(confetti);
+          
+          setTimeout(() => {
+            confetti.style.animation = 'confetti 2s linear forwards';
+          }, 10);
+          
+          setTimeout(() => {
+            confetti.remove();
+          }, 2100);
+        }
+        
+        function createHeart(parentElement) {
+          const heart = document.createElement('div');
+          heart.className = 'heart';
+          heart.innerHTML = '❤️';
+          heart.style.left = Math.random() * 60 + 20 + '%';
+          heart.style.top = '60%';
+          
+          parentElement.appendChild(heart);
+          
+          setTimeout(() => {
+            heart.style.animation = 'heart 1.5s ease-out forwards';
+          }, 10);
+          
+          setTimeout(() => {
+            heart.remove();
+          }, 1600);
+        }
+        
+        function createCake(parentElement) {
+          const emojis = ['🎂', '🍰', '🧁', '🎉', '🥂', '💐'];
+          const cake = document.createElement('div');
+          cake.className = 'cake';
+          cake.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+          cake.style.left = Math.random() * 60 + 20 + '%';
+          cake.style.top = '60%';
+          cake.style.fontSize = (Math.random() * 20 + 16) + 'px';
+          
+          parentElement.appendChild(cake);
+          
+          setTimeout(() => {
+            cake.style.animation = 'confetti 2s linear forwards';
+          }, 10);
+          
+          setTimeout(() => {
+            cake.remove();
+          }, 2100);
+        }
+      </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 </body>
 </html>
