@@ -625,6 +625,12 @@
       from { background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%); }
       to { background: linear-gradient(135deg, #ff0000 0%, #ffff00 50%, #00ff00 100%); }
     }
+    @media (max-width: 480px) {
+  #searchInput {
+    font-size: 1rem !important;
+  }
+}
+
     </style>
 </head>
 <body>
@@ -634,6 +640,24 @@
         <h1>IBP FAMILY TREE</h1>
         <p>Discover the branches of our family's story through generations</p>
     </div>
+    <div style="display: flex; justify-content: center; padding: 1rem;">
+        <div style="display: flex; width: 100%; max-width: 500px; padding: 0 1rem; gap: 0.5rem;">
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Search family member..." 
+            style="flex: 1; padding: 0.9rem 1.2rem; border-radius: 50px; border: 2px solid #7a5c9e; font-size: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); outline: none;"
+          />
+          <button 
+            onclick="handleSearch()" 
+            style="flex-shrink: 0; padding: 0 1rem; background: #7a5c9e; color: white; border: none; border-radius: 50px; font-size: 1.2rem; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);"
+          >
+            🔍
+          </button>
+        </div>
+      </div>
+      <p id="searchSuggestion" style="text-align:center; color: red; font-style: italic; margin-top: -0.5rem;"></p>
+      
     
     <div class="nav-buttons">
         <button class="nav-btn" id="backBtn" disabled>← Back</button>
@@ -656,9 +680,9 @@
         <button class="nav-btn" onclick="window.location.href='MAHESH.html'">MAHESH FAMILY</button>
         <button class="nav-btn" onclick="window.location.href='SHANKAR.html'">SHANKAR FAMILY</button>
         <!-- Add this as a new section in your HTML where you want it to appear -->
-<section id="anniversary-section" style="background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%); padding: 30px 0; margin: 40px 0; border-top: 3px solid #8b0000; border-bottom: 3px solid #8b0000;">
+<section id="anniversary-section" style="background: linear-gradient(135deg, #1d5b96c9 0%, #fad0c4 100%); padding: 30px 0; margin: 40px 0; border-top: 3px solid #1c1272a8; border-bottom: 3px solid #8b0000;">
     <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
-      <div class="anniversary-content" style="text-align: center; color: #8b0000; font-family: 'Arial', sans-serif;">
+      <div class="anniversary-content" style="text-align: center; color: #060330; font-family: 'Arial', sans-serif;">
         <h2 style="font-size: clamp(24px, 4vw, 36px); margin-bottom: 15px; text-shadow: 1px 1px 2px rgba(255,255,255,0.7);">🎉 Bhawana & Prakash's 20th Anniversary 🎉</h2>
         <p style="font-size: clamp(16px, 2.5vw, 20px); margin-bottom: 20px;">Celebrating 20 wonderful years together on May 10th, 2025!</p>
         
@@ -1500,5 +1524,97 @@
         }
       </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+<script>
+  // Flatten the family data for search
+  const flatFamilyList = [];
+
+  function flattenFamily(node) {
+    flatFamilyList.push({
+      id: node.id,
+      name: node.name,
+      relation: node.relation || '',
+      spouse: node.spouse || null,
+      children: node.children || [],
+      memory: node.memory || '',
+      image: node.image || ''
+    });
+    if (node.spouse) {
+      flatFamilyList.push({
+        id: node.id + '_spouse',
+        name: node.spouse.name,
+        relation: node.spouse.relation,
+        spouse: node.name,
+        children: node.children || [],
+        memory: '',
+        image: node.spouse.image
+      });
+    }
+    if (node.children) {
+      node.children.forEach(flattenFamily);
+    }
+  }
+  flattenFamily(familyData);
+
+  const fuse = new Fuse(flatFamilyList, {
+    keys: ['name'],
+    threshold: 0.4, // Adjust for fuzzy match
+  });
+
+  function handleSearch() {
+    const query = document.getElementById('searchInput').value.trim();
+    const results = fuse.search(query);
+    const suggestionBox = document.getElementById('searchSuggestion');
+
+    if (results.length === 0) {
+      suggestionBox.textContent = "No match found. Please check spelling.";
+      return;
+    }
+
+    suggestionBox.textContent = results.length > 0 && results[0].score > 0.2 
+      ? `Did you mean: ${results[0].item.name}?`
+      : "";
+
+    const person = results[0].item;
+    showPersonDetails(person);
+  }
+
+  function showPersonDetails(person) {
+  const container = document.createElement('div');
+  container.style.padding = '2rem';
+  container.style.background = '#fff';
+  container.style.borderRadius = '20px';
+  container.style.margin = '2rem auto';
+  container.style.maxWidth = '500px';
+  container.style.boxShadow = 'var(--card-shadow)';
+  container.style.textAlign = 'center';
+  container.style.position = 'relative';
+
+  container.innerHTML = `
+    <button onclick="clearSearch()" 
+      style="position: absolute; top: 10px; right: 10px; background: #ff5e5e; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 1rem; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">❌</button>
+    <img src="${person.image}" alt="${person.name}" style="width:120px; height:120px; border-radius:50%; object-fit:cover; border:3px solid #5d4e7b;">
+    <h2 style="color:#5d4e7b;">${person.name}</h2>
+    <p><strong>रिश्ता:</strong> ${person.relation}</p>
+    ${person.spouse ? `<p><strong>जीवनसाथी:</strong> ${person.spouse.name || person.spouse}</p>` : ''}
+    ${person.children.length > 0 ? `<p><strong>Children:</strong> ${person.children.map(child => child.name).join(', ')}</p>` : ''}
+    <p><strong>Memory:</strong> ${person.memory || 'No memory added.'}</p>
+  `;
+
+  treeContainer.innerHTML = '';
+  treeContainer.appendChild(container);
+  memoryContent.textContent = person.memory || 'No memory added.';
+}
+function clearSearch() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchSuggestion').textContent = '';
+  currentGeneration = familyData;
+  history = [];
+  backBtn.disabled = true;
+  renderGeneration(currentGeneration);
+}
+
+</script>
+
 </body>
 </html>
