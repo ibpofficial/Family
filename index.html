@@ -726,6 +726,13 @@
         <h2>Family Memories</h2>
         <p id="memoryContent">Select a family member to view their precious memories...</p>
     </div>
+<section id="guessGameSection" style="text-align:center; padding: 2rem; background: #fff5f0; margin: 2rem auto; border-radius: 16px; max-width: 600px; box-shadow: var(--card-shadow);">
+  <h2 style="color: var(--primary-color); margin-bottom: 1rem;">🎯 Guess the Family Member!</h2>
+  <img id="guessImage" src="" alt="Guess Who?" style="width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 4px solid var(--secondary-color); margin-bottom: 1rem;">
+  <div id="guessOptions" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 1rem;"></div>
+  <p id="guessResult" style="margin-top: 1rem; font-weight: bold;"></p>
+  <button onclick="startGuessGame()" class="nav-btn" style="margin-top: 1rem;">🔄 New Round</button>
+</section>
 
     <script>
         // Enhanced family data with more details
@@ -1615,6 +1622,41 @@ function clearSearch() {
 }
 
 </script>
+    <script>
+function startGuessGame() {
+  const candidates = flatFamilyList.filter(p => p.image && p.name && !p.name.includes('NOT YET'));
+  const correct = candidates[Math.floor(Math.random() * candidates.length)];
+
+  const options = new Set([correct.name]);
+  while (options.size < 4) {
+    const random = candidates[Math.floor(Math.random() * candidates.length)];
+    options.add(random.name);
+  }
+
+  const shuffledOptions = Array.from(options).sort(() => Math.random() - 0.5);
+
+  document.getElementById('guessImage').src = correct.image;
+  document.getElementById('guessResult').textContent = '';
+  
+  const optionButtons = shuffledOptions.map(name => {
+    return `<button onclick="checkGuess('${name}', '${correct.name}')" style="padding: 0.6rem 1.2rem; border-radius: 50px; border: none; background: #7a5c9e; color: white; cursor: pointer; font-weight: 600;">${name}</button>`;
+  });
+
+  document.getElementById('guessOptions').innerHTML = optionButtons.join('');
+}
+
+function checkGuess(selected, correct) {
+  const result = document.getElementById('guessResult');
+  if (selected === correct) {
+    result.textContent = "✅ Correct! 🎉";
+    result.style.color = 'green';
+  } else {
+    result.textContent = `❌ Oops! It was ${correct}`;
+    result.style.color = 'red';
+  }
+}
+</script>
+
 
 </body>
 </html>
