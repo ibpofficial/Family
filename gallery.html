@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Gallery</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f5f2;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #5d4e7b, #7a5c9e);
+            color: white;
+        }
+    
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .back-btn {
+            display: block;
+            margin: 2rem auto;
+            padding: 0.8rem 1.5rem;
+            background: #5d4e7b;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: #7a5c9e;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Family Gallery</h1>
+        <p>Precious moments from our family history</p>
+    </div>
+    
+    <div class="gallery-container">
+        <div class="gallery-item">
+            <img src="family1.jpg" alt="Family Gathering">
+        </div>
+        <div class="gallery-item">
+            <img src="family2.jpg" alt="Celebration">
+        </div>
+        <div class="gallery-item">
+            <img src="family3.jpg" alt="Family Event">
+        </div>
+    </div>
+    
+    <button class="back-btn" onclick="window.location.href='index.html'">
+        ← Back to Family Tree
+    </button>
+</body>
+</html>
+
