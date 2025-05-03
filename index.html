@@ -630,7 +630,81 @@
     font-size: 1rem !important;
   }
 }
+   /* Darshan Section Styles */
+        .darshan-section {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            animation: zoomIn 0.8s ease-out;
+        }
 
+        .deity-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .deity-image {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 5px solid var(--primary-color);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            transition: var(--transition);
+            margin: 1rem;
+        }
+
+        .deity-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .deity-name {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .gallery-btn {
+            background: linear-gradient(45deg, var(--primary-color), #7a5c9e);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: var(--transition);
+            font-size: 1rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .gallery-btn:hover {
+            background: linear-gradient(45deg, var(--secondary-color), #ff7e5f);
+            transform: translateY(-3px);
+            color: white;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -662,6 +736,8 @@
     <div class="nav-buttons">
         <button class="nav-btn" id="backBtn" disabled>← Back</button>
         <button class="nav-btn" id="homeBtn">🏡 Home</button>
+          <button class="nav-btn" id="darshanBtn">🛕 Darshan</button>
+        
     </div>
     <div id="birthdayBanner" style="display: none; max-width: 600px; margin: 2rem auto; padding: 1.5rem; background: #fff6e6; border: 2px dashed var(--secondary-color); border-radius: 16px; box-shadow: var(--card-shadow); text-align: center;">
         <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">🎉 Happy Birthday!</h3>
@@ -1656,6 +1732,80 @@ function checkGuess(selected, correct) {
   }
 }
 </script>
+     <script>
+        // [All your existing JavaScript remains the same until the end of event listeners]
+
+        // Add Darshan button to your DOM elements
+        const darshanBtn = document.getElementById('darshanBtn');
+
+        // Add this with your other event listeners
+        darshanBtn.addEventListener('click', showDarshanSection);
+
+        function showDarshanSection() {
+            // Clear history since we're showing a special section
+            history = [];
+            backBtn.disabled = true;
+            
+            treeContainer.innerHTML = `
+                <div class="darshan-section" id="darshanContent">
+                    <h2 style="color: var(--primary-color); font-family: 'Playfair Display', serif;">
+                        Our Family Deities
+                    </h2>
+                    <p style="color: #555; margin-bottom: 1rem;">
+                        Seek blessings from our Kul Devta and Kul Devi
+                    </p>
+                    
+                    <div class="deity-container">
+                        <div>
+                            <img src="balaji.jpeg" alt="Kul Devta" class="deity-image">
+                            <div class="deity-name">Shri Balaji (Kul Devta)</div>
+                        </div>
+                        <div>
+                            <img src="kuldevi.jpeg" alt="Kul Devi" class="deity-image">
+                            <div class="deity-name">Kul Devi</div>
+                        </div>
+                    </div>
+                    
+                    <button class="gallery-btn" id="galleryBtn">
+                        📸 View Gallery
+                    </button>
+                </div>
+            `;
+            
+            // Update memory section
+            memoryContent.textContent = "Our family deities who protect and guide us through generations.";
+            
+            // Add event listener for gallery button
+            document.getElementById('galleryBtn').addEventListener('click', function() {
+                window.location.href = 'gallery.html';
+            });
+            
+            // Set currentGeneration to a special value to handle home button
+            currentGeneration = { id: 'darshan', name: 'Darshan' };
+        }
+
+        // Update home button event listener to handle Darshan section
+        homeBtn.addEventListener('click', () => {
+            if (currentGeneration.id === 'darshan' || currentGeneration.id !== 'root') {
+                // Animate current view out
+                anime({
+                    targets: treeContainer.querySelector('.darshan-section, .generation'),
+                    opacity: 0,
+                    translateY: -50,
+                    duration: 500,
+                    easing: 'easeInQuad',
+                    complete: () => {
+                        history = [];
+                        currentGeneration = familyData;
+                        backBtn.disabled = true;
+                        renderGeneration(currentGeneration);
+                    }
+                });
+            }
+        });
+
+        // [Rest of your existing JavaScript remains the same]
+    </script>
 
 
 </body>
