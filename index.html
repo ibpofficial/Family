@@ -9,49 +9,63 @@
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
         
         :root {
-            --primary-color: #5d4e7b;
-            --secondary-color: #ff9a76;
-            --accent-color: #f8d49a;
-            --text-color: #333;
-            --light-bg: #f8f5f2;
-            --dark-bg: #2d2833;
-            --card-shadow: 0 15px 30px rgba(0,0,0,0.12);
-            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            --bloom-effect: radial-gradient(circle at center, rgba(253,245,230,0.8) 0%, rgba(253,245,230,0) 70%);
-        }
+    --primary-color: #091b2c;         /* Deep blue */
+    --secondary-color: #e74c3c;      /* Vibrant red */
+    --accent-color: #f39c12;         /* Warm orange */
+    --text-color: #03192e;           /* Dark blue-gray for text */
+    --light-bg: #ecf0f1;             /* Very light gray */
+    --dark-bg: #0b172c;              /* Deep navy */
+    --card-shadow: 0 10px 20px rgba(14, 3, 24, 0.938);
+    --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --bloom-effect: radial-gradient(circle at center, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+    
+    /* New complementary colors */
+    --success-color: #27ae60;        /* Green */
+    --warning-color: #f1c40f;        /* Yellow */
+    --info-color: #3498db;           /* Blue */
+    --light-text: #7712a7;           /* For text on dark backgrounds */
+    --highlight-color: #9b59b6;      /* Purple for accents */
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-image: url('https://www.transparenttextures.com/patterns/soft-paper.png');
+}
         
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--light-bg);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
-        }
-        
-        .header {
-            text-align: center;
-            padding: 3rem 2rem;
-            background: linear-gradient(135deg, var(--primary-color), #7a5c9e);
-            color: white;
-            margin-bottom: 2rem;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 5px 25px rgba(93, 78, 123, 0.3);
-        }
-        
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--bloom-effect);
-            z-index: 1;
-        }
-        
+.header {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--dark-bg));
+    color: white;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.76);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bloom-effect);
+    z-index: 1;
+    opacity: 0.5;
+}
         .header h1 {
             font-family: 'Playfair Display', serif;
             font-size: 3.5rem;
@@ -172,10 +186,11 @@
             transition: var(--transition);
         }
         
-        .person-card:hover {
-            transform: translateY(-10px) scale(1.05) rotateY(5deg);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
-        }
+       .person-card:hover {
+    transform: translateY(-10px) scale(1.05) rotateY(5deg);
+    box-shadow: 0 20px 40px rgba(230, 126, 126, 0.15); /* Secondary color with opacity */
+    background: linear-gradient(to bottom right, rgba(255,255,255,0.95), rgba(248, 216, 176, 0.15));
+}
         
         .person-card:hover::before {
             opacity: 0.2;
@@ -302,7 +317,7 @@
         }
         
         .nav-btn {
-            background: linear-gradient(45deg, var(--primary-color), #7a5c9e);
+            background: linear-gradient(45deg, var(--primary-color), #140525);
             color: white;
             border: none;
             padding: 1rem 2rem;
@@ -707,12 +722,12 @@
         }
          /* Modern Navbar Styles */
     .secondary-nav {
-        background: linear-gradient(135deg, var(--primary-color), #7a5c9e);
+        background: linear-gradient(135deg, var(--primary-color), #090d42);
         padding: 0.8rem 1rem;
         margin: 0 auto 2rem;
         max-width: 1000px;
         border-radius: 50px;
-        box-shadow: 0 10px 30px rgba(93, 78, 123, 0.3);
+        box-shadow: 0 10px 30px rgba(9, 1, 26, 0.877);
         position: relative;
         overflow: hidden;
     }
@@ -725,9 +740,9 @@
         right: 0;
         bottom: 0;
         background: linear-gradient(45deg, 
-            rgba(255,255,255,0.1) 0%, 
-            rgba(255,255,255,0.3) 50%, 
-            rgba(255,255,255,0.1) 100%);
+            rgba(3, 15, 39, 0.658) 0%, 
+            rgba(91, 10, 116, 0.527) 50%, 
+            rgba(24, 11, 44, 0.267) 100%);
         z-index: 1;
     }
     
@@ -766,7 +781,7 @@
     }
     
     .nav-link:hover {
-        background: rgba(255,255,255,0.2);
+        background: rgba(204, 241, 238, 0.479);
         transform: translateY(-3px);
     }
     
@@ -818,7 +833,7 @@
     /* Animation for active state */
     @keyframes pulse-glow {
         0% {
-            box-shadow: 0 0 0 0 rgba(255, 154, 118, 0.7);
+            box-shadow: 0 0 0 0 rgba(25, 1, 82, 0.795);
         }
         70% {
             box-shadow: 0 0 0 10px rgba(255, 154, 118, 0);
@@ -1361,10 +1376,43 @@
             }
         }
 
-        // Initialize the tree
         function initTree() {
-            createLeaves();
-            renderGeneration(currentGeneration);
+    createLeaves();
+    
+    // First show Lahari Lal by himself
+    renderGeneration({
+        id: 'lahari',
+        name: 'SHRI SHRI NARYAN BORHA',
+        relation: 'Family Elder',
+        image: 'lahari_lal.jpg',
+        memory: "Lahari Lal Upadhyay, our beloved father and family patriarch.",
+        children: familyData.children
+    });
+    
+    // After 3 seconds, automatically show his three sons
+    setTimeout(() => {
+        history.push(currentGeneration);
+        backBtn.disabled = false;
+        currentGeneration = {
+            id: 'root',
+            name: 'The Founding Generation',
+            children: familyData.children
+        };
+        renderGeneration(currentGeneration);
+    }, 100000000000000);
+}
+        // Find parent of a person in the family tree
+        function findParent(personId, tree = familyData) {
+            if (tree.children) {
+                for (const child of tree.children) {
+                    if (child.id === personId) {
+                        return tree;
+                    }
+                    const foundParent = findParent(personId, child);
+                    if (foundParent) return foundParent;
+                }
+            }
+            return null;
         }
 
         // Find parent of a person in the family tree
