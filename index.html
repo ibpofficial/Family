@@ -863,6 +863,107 @@ body {
     .page-content {
         animation: pageLoad 0.6s ease-out;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         /* Dipol Bar Styles */
+.dipol-bar {
+    background: linear-gradient(135deg, #210129, #182848);
+    padding: 1rem;
+    margin: 1rem auto;
+    max-width: 800px;
+    border-radius: 50px;
+    box-shadow: 0 30px 90px rgb(12, 0, 0);
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.dipol-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+        rgba(24, 1, 31, 0.774) 0%, 
+        rgba(255,255,255,0.05) 50%, 
+        rgba(2, 5, 49, 0.438) 100%);
+    z-index: -1;
+}
+
+.dipol-btn {
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.dipol-btn:hover {
+    background: rgba(255, 255, 255, 0.445);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.dipol-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255,255,255,0.4), 
+        transparent);
+    transition: 0.5s;
+}
+
+.dipol-btn:hover::after {
+    left: 100%;
+}
+
+/* Animation for button click */
+@keyframes dipolClick {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+.dipol-btn:active {
+    animation: dipolClick 0.3s ease;
+}
     </style>
 </head>
 <body>
@@ -937,6 +1038,20 @@ body {
             <!-- Generations will be dynamically inserted here -->
         </div>
     </div>
+    <!-- Dipol Bar -->
+<div class="dipol-bar">
+    <button class="dipol-btn" onclick="navigateTo('https://ibpofficial.github.io/contact')">
+        <i class="fas fa-phone"></i> Serch
+    </button>
+    <button class="dipol-btn" onclick="navigateTo('address.html')">
+        <i class="fas fa-home"></i> Address
+    </button>
+    <button class="dipol-btn" onclick="navigateTo('more.html')">
+        <i class="fas fa-info-circle"></i> More
+    </button>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</div>
     <div style="text-align: center; margin: 3rem 0;">
         <button class="nav-btn" onclick="window.location.href='RAMVILAS.html'">RAMBILAS FAMILY</button>
         <button class="nav-btn" onclick="window.location.href='KAILASH.html'">KAILASH FAMILY </button>
