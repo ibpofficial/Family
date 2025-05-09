@@ -3,30 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAMILY NOTES</title>
+    <title>FamilySecureNotes</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --navy: #f0f3f7;
-            --light-navy: #9db45c;
-            --lightest-navy: #e3e5e7;
-            --white: #e6f1ff;
-            --accent: #080327;
-            --shadow: rgba(5, 25, 63, 0.877);
+            --primary-color: #6c5ce7;
+            --secondary-color: #a29bfe;
+            --dark-color: #2d3436;
+            --light-color: #f5f6fa;
+            --danger-color: #ff7675;
+            --success-color: #00b894;
+            --warning-color: #fdcb6e;
+            --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--navy);
-            color: var(--white);
-            min-height: 100vh;
-            overflow-x: hidden;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9f9;
+            color: var(--dark-color);
+            line-height: 1.6;
         }
 
         .container {
@@ -40,15 +43,14 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 0;
-            border-bottom: 1px solid var(--lightest-navy);
             margin-bottom: 30px;
-            animation: fadeIn 0.8s ease-out;
+            border-bottom: 1px solid #eee;
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: 28px;
             font-weight: 700;
-            color: var(--accent);
+            color: var(--primary-color);
             display: flex;
             align-items: center;
         }
@@ -57,487 +59,532 @@
             margin-right: 10px;
         }
 
-        .add-note-btn {
-            background-color: var(--accent);
-            color: var(--navy);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
+        .section-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: var(--dark-color);
             display: flex;
             align-items: center;
         }
 
-        .add-note-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px var(--shadow);
+        .section-title i {
+            margin-right: 10px;
+            color: var(--primary-color);
         }
 
-        .add-note-btn i {
-            margin-right: 8px;
-        }
-
-        .notes-grid {
+        .notes-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            padding: 20px 0;
+            gap: 20px;
+            margin-bottom: 40px;
         }
 
         .note-card {
-            background-color: var(--light-navy);
+            background: white;
             border-radius: 10px;
             padding: 20px;
-            transition: all 0.3s ease;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            animation: slideUp 0.5s ease-out;
-            animation-fill-mode: both;
-            opacity: 0;
-            height: 250px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
         }
 
         .note-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px var(--shadow);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
 
-        .note-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
+        .note-card.secure {
+            background: linear-gradient(135deg, #f5f7fa 0%, #f0f2f5 100%);
+            border-left: 4px solid var(--primary-color);
         }
 
         .note-title {
-            font-size: 1.2rem;
+            font-size: 18px;
             font-weight: 600;
-            color: var(--white);
-            margin-right: 10px;
-            white-space: nowrap;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+
+        .note-preview {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
             overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 80%;
         }
 
         .note-date {
-            font-size: 0.8rem;
-            color: rgb(248, 248, 248);
-            white-space: nowrap;
-        }
-
-        .note-content-preview {
-            font-size: 0.95rem;
-            color: rgb(238, 240, 243);
-            line-height: 1.5;
-            display: -webkit-box;
-            -webkit-line-clamp: 5;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            flex-grow: 1;
-            margin: 10px 0;
+            font-size: 12px;
+            color: #999;
         }
 
         .note-actions {
+            position: absolute;
+            top: 15px;
+            right: 15px;
             display: flex;
-            justify-content: flex-end;
-            gap: 10px;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: var(--transition);
         }
 
         .note-card:hover .note-actions {
             opacity: 1;
         }
 
-        .action-btn {
-            background: none;
+        .note-action-btn {
+            background: rgba(255, 255, 255, 0.8);
             border: none;
-            color: var(--white);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 5px;
             cursor: pointer;
-            font-size: 0.9rem;
-            transition: color 0.3s ease;
+            transition: var(--transition);
+            color: var(--dark-color);
         }
 
-        .action-btn:hover {
-            color: var(--accent);
+        .note-action-btn:hover {
+            background: var(--primary-color);
+            color: white;
         }
 
-        /* Modal Styles */
+        .add-note-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+            transition: var(--transition);
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 10;
+        }
+
+        .add-note-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.6);
+        }
+
         .modal {
-            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(10, 25, 47, 0.9);
-            z-index: 1000;
-            justify-content: center;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
             align-items: center;
-            animation: fadeIn 0.3s ease-out;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
         }
 
         .modal-content {
-            background-color: var(--light-navy);
-            border-radius: 10px;
+            background: white;
             width: 90%;
             max-width: 600px;
-            padding: 30px;
-            position: relative;
-            animation: slideUp 0.4s ease-out;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-50px);
+            transition: var(--transition);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.5rem;
-            color: var(--white);
-            cursor: pointer;
-            transition: color 0.3s ease;
+        .modal.active .modal-content {
+            transform: translateY(0);
         }
 
-        .close-btn:hover {
-            color: var(--accent);
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .modal-title {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: var(--accent);
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+            transition: var(--transition);
+        }
+
+        .close-btn:hover {
+            color: var(--danger-color);
+        }
+
+        .modal-body {
+            padding: 20px;
         }
 
         .form-group {
             margin-bottom: 20px;
         }
 
-        .form-group label {
+        .form-label {
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
         }
 
-        .form-control {
+        .form-input {
             width: 100%;
-            padding: 12px;
-            background-color: var(--lightest-navy);
-            border: 1px solid rgba(230, 241, 255, 0);
-            border-radius: 5px;
-            color: var(--white);
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
         }
 
-        .form-control:focus {
+        .form-input:focus {
+            border-color: var(--primary-color);
             outline: none;
-            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
         }
 
-        textarea.form-control {
-            min-height: 200px;
+        .form-textarea {
+            min-height: 150px;
             resize: vertical;
         }
 
-        .submit-btn {
-            background-color: var(--accent);
-            color: var(--navy);
-            border: none;
-            padding: 12px 25px;
-            border-radius: 5px;
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            border: none;
         }
 
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px var(--shadow);
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
         }
 
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .btn-primary:hover {
+            background: #5649c0;
         }
 
-        @keyframes slideUp {
-            from { 
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .btn-secondary {
+            background: #eee;
+            color: var(--dark-color);
+            margin-right: 10px;
         }
 
-        /* Responsive Styles */
+        .btn-secondary:hover {
+            background: #ddd;
+        }
+
+        .password-modal .modal-content {
+            max-width: 400px;
+        }
+
+        .password-hint {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .empty-state i {
+            font-size: 50px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+        }
+
         @media (max-width: 768px) {
-            .notes-grid {
+            .notes-container {
                 grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-                gap: 15px;
-            }
-
-            .note-card {
-                height: 220px;
-                padding: 15px;
-            }
-
-            .note-title {
-                font-size: 1.1rem;
-            }
-
-            .note-content-preview {
-                -webkit-line-clamp: 4;
-                font-size: 0.9rem;
             }
 
             .add-note-btn {
-                padding: 8px 15px;
-                font-size: 0.9rem;
-            }
-
-            .logo {
-                font-size: 1.5rem;
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+                bottom: 20px;
+                right: 20px;
             }
         }
 
         @media (max-width: 480px) {
-            .container {
-                padding: 15px;
-            }
-
-            .notes-grid {
+            .notes-container {
                 grid-template-columns: 1fr;
-            }
-
-            .note-card {
-                height: auto;
-                min-height: 200px;
-            }
-
-            header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-
-            .add-note-btn {
-                width: 100%;
-                justify-content: center;
             }
 
             .modal-content {
                 width: 95%;
-                padding: 20px;
+            }
+
+            .logo {
+                font-size: 22px;
             }
         }
 
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 50px 20px;
-            animation: fadeIn 1s ease-out;
+        /* Animation classes */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .empty-state i {
-            font-size: 4rem;
-            color: var(--lightest-navy);
-            margin-bottom: 20px;
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
         }
 
-        .empty-state h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: var(--white);
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+
+        /* Secure note icon */
+        .secure-icon {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: var(--primary-color);
+            font-size: 14px;
         }
 
-        .empty-state p {
-            color: rgba(230, 241, 255, 0.925);
-            margin-bottom: 25px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         .secondary-nav {
-        background: linear-gradient(135deg, var(--primary-color), #02052c);
-        padding: 0.8rem 1rem;
-        margin: 0 auto 2rem;
-        max-width: 1000px;
-        border-radius: 50px;
-        box-shadow: 0 10px 30px rgb(9, 1, 26);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .secondary-nav::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(45deg, 
-            rgb(3, 15, 39) 0%, 
-            rgba(91, 10, 116, 0.527) 50%, 
-            rgba(24, 11, 44, 0.979) 100%);
-        z-index: 1;
+    background: linear-gradient(135deg, var(--primary-color), #090d42);
+    padding: 0.8rem 1rem;
+    margin: 0 auto 2rem;
+    max-width: 1000px;
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(9, 1, 26, 0.877);
+    position: relative;
+    overflow: hidden;
+}
+
+.secondary-nav::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+        rgba(3, 15, 39, 0.658) 0%, 
+        rgba(91, 10, 116, 0.527) 50%, 
+        rgba(24, 11, 44, 0.267) 100%);
+    z-index: 1;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+}
+
+.nav-link {
+    position: relative;
+    padding: 0.8rem 1.2rem;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 30px;
+}
+
+.nav-link i {
+    font-size: 1.4rem;
+    margin-bottom: 0.3rem;
+    transition: transform 0.3s ease;
+}
+
+.nav-link span {
+    font-size: 0.9rem;
+}
+
+.nav-link:hover {
+    background: rgba(204, 241, 238, 0.479);
+    transform: translateY(-3px);
+}
+
+.nav-link:hover i {
+    transform: scale(1.2);
+}
+
+.nav-link.active {
+    background: var(--secondary-color);
+    box-shadow: 0 5px 15px rgba(255, 154, 118, 0.4);
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .secondary-nav {
+        border-radius: 20px;
+        padding: 0.5rem;
     }
     
     .nav-links {
-        display: flex;
-        justify-content: space-around;
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        position: relative;
-        z-index: 2;
+        flex-wrap: wrap;
+        justify-content: center;
     }
     
     .nav-link {
-        position: relative;
-        padding: 0.8rem 1.2rem;
-        color: white;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 1rem;
-        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        border-radius: 30px;
+        padding: 0.6rem 0.8rem;
+        margin: 0.2rem;
+        font-size: 0.9rem;
+        flex: 1 0 40%;
+        max-width: 45%;
+        box-sizing: border-box;
+        text-align: center;
     }
     
     .nav-link i {
-        font-size: 1.4rem;
-        margin-bottom: 0.3rem;
-        transition: transform 0.3s ease;
+        font-size: 1.2rem;
     }
-    
-    .nav-link span {
-        font-size: 0.9rem;
+}
+
+@media (max-width: 480px) {
+    .nav-link {
+        flex: 1 0 100%;
+        max-width: 100%;
+        margin: 0.2rem 0;
+        border-radius: 10px;
     }
-    
-    .nav-link:hover {
-        background: rgb(46, 17, 4);
-        transform: translateY(-3px);
+}
+
+/* Animation for active state */
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(25, 1, 82, 0.795);
     }
-    
-    .nav-link:hover i {
-        transform: scale(1.2);
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 154, 118, 0);
     }
-    
-    .nav-link.active {
-        background: var(--secondary-color);
-        box-shadow: 0 5px 15px rgba(255, 155, 118, 0.781);
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 154, 118, 0);
     }
-    
-    /* Mobile Styles */
-    @media (max-width: 768px) {
-        .secondary-nav {
-            border-radius: 20px;
-            padding: 0.5rem;
-        }
-        
-        .nav-links {
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .nav-link {
-            padding: 0.6rem 0.8rem;
-            margin: 0.2rem;
-            font-size: 0.9rem;
-            flex: 1 0 40%;
-            max-width: 45%;
-            box-sizing: border-box;
-            text-align: center;
-        }
-        
-        .nav-link i {
-            font-size: 1.2rem;
-        }
+}
+
+.nav-link:active {
+    animation: pulse-glow 0.5s;
+    transform: scale(0.95);
+}
+
+/* Loading animation for pages */
+@keyframes pageLoad {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
-    
-    @media (max-width: 480px) {
-        .nav-link {
-            flex: 1 0 100%;
-            max-width: 100%;
-            margin: 0.2rem 0;
-            border-radius: 10px;
-        }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
-    
-    /* Animation for active state */
-    @keyframes pulse-glow {
-        0% {
-            box-shadow: 0 0 0 0 rgba(30, 3, 94, 0.904);
-        }
-        70% {
-            box-shadow: 0 0 0 10px rgba(255, 155, 118, 0.575);
-        }
-        100% {
-            box-shadow: 0 0 0 0 rgba(255, 154, 118, 0);
-        }
-    }
-    
-    .nav-link:active {
-        animation: pulse-glow 0.5s;
-        transform: scale(0.95);
-    }
-    
-    /* Loading animation for pages */
-    @keyframes pageLoad {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    .page-content {
-        animation: pageLoad 0.6s ease-out;
-    }
-    
+}
+
+.page-content {
+    animation: pageLoad 0.6s ease-out;
+}
     </style>
 </head>
 <body>
-    <nav class="secondary-nav">
+      <nav class="secondary-nav">
         <ul class="nav-links">
             <li>
-                <a href="videos.html" class="nav-link" id="videosLink">
-                    <i></i>
+                <a href="https://ibpofficial.github.io/Family/videos.html" class="nav-link" id="videosLink">
+                    <i class="fas fa-video"></i>
                     <span>VIDEOS</span>
                 </a>
             </li>
             <li>
-                <a href="about.html" class="nav-link" id="aboutLink">
-                    <i></i>
+                <a href="https://ibpofficial.github.io/Family/about.html" class="nav-link" id="aboutLink">
+                    <i class="fas fa-info-circle"></i>
                     <span>ABOUT</span>
                 </a>
             </li>
             <li>
-                <a href="index.html" class="nav-link" id="audioLink">
-                    <i></i>
+                <a href="https://ibpofficial.github.io/Family" class="nav-link" id="aboutLink">
+                    <i class="fas fa-home"></i>
                     <span>HOME</span>
                 </a>
             </li>
+            
             <li>
-                <a href="audio.html" class="nav-link" id="notesLink">
-                    <i></i>
-                    <span>AUDIO</span>
+                <a href="https://ibpofficial.github.io/audio" class="nav-link" id="notesLink">
+                    <i class="fas fa-music"></i>
+                    <span>MUSIC</span>
                 </a>
             </li>
         </ul>
@@ -545,234 +592,445 @@
     <div class="container">
         <header>
             <div class="logo">
-                <i class="fas fa-book"></i>
-                <span>Family Notes</span>
+                <i class="fas fa-lock"></i>
+                <span>SecureNotes</span>
             </div>
-            <button class="add-note-btn" id="addNoteBtn">
-                <i class="fas fa-plus"></i>
-                <span>New Note</span>
-            </button>
         </header>
 
-        <div class="notes-grid" id="notesGrid">
-            <!-- Notes will be dynamically added here -->
-        </div>
+        <main>
+            <section>
+                <h2 class="section-title">
+                    <i class="fas fa-sticky-note"></i>
+                    My Notes
+                </h2>
+                <div class="notes-container" id="regular-notes-container">
+                    <!-- Regular notes will be inserted here -->
+                </div>
+                <div class="empty-state" id="regular-notes-empty">
+                    <i class="fas fa-sticky-note"></i>
+                    <p>No notes yet. Click the + button to create one!</p>
+                </div>
+            </section>
 
-        <div class="empty-state" id="emptyState">
-            <i class="fas fa-sticky-note"></i>
-            <h3>No Notes Yet</h3>
-            <p>Click the "New Note" button to create your first note. Your notes will appear here for easy access.</p>
+            <section>
+                <h2 class="section-title">
+                    <i class="fas fa-lock"></i>
+                    Secure Folder
+                </h2>
+                <div class="notes-container" id="secure-notes-container">
+                    <!-- Secure notes will be inserted here -->
+                </div>
+                <div class="empty-state" id="secure-notes-empty">
+                    <i class="fas fa-lock"></i>
+                    <p>No secure notes yet. Click the + button to create one!</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add note button -->
+    <button class="add-note-btn" id="add-note-btn">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <!-- Note modal -->
+    <div class="modal" id="note-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">Add New Note</h3>
+                <button class="close-btn" id="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="note-form">
+                    <input type="hidden" id="note-id">
+                    <input type="hidden" id="note-secure" value="false">
+                    <div class="form-group">
+                        <label for="note-title" class="form-label">Title</label>
+                        <input type="text" id="note-title" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="note-content" class="form-label">Content</label>
+                        <textarea id="note-content" class="form-input form-textarea" required></textarea>
+                    </div>
+                    <div id="secure-fields" style="display: none;">
+                        <div class="form-group">
+                            <label for="note-password" class="form-label">Password</label>
+                            <input type="password" id="note-password" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="note-hint" class="form-label">Password Hint (Optional)</label>
+                            <input type="text" id="note-hint" class="form-input">
+                            <p class="password-hint">This will help you remember your password if you forget it.</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancel-note">Cancel</button>
+                <button type="button" class="btn btn-primary" id="save-note">Save Note</button>
+            </div>
         </div>
     </div>
 
-    <!-- Add/Edit Note Modal -->
-    <div class="modal" id="noteModal">
+    <!-- Password modal -->
+    <div class="modal password-modal" id="password-modal">
         <div class="modal-content">
-            <span class="close-btn" id="closeModal">&times;</span>
-            <h2 class="modal-title" id="modalTitle">Add New Note</h2>
-            <form id="noteForm">
-                <input type="hidden" id="noteId">
-                <div class="form-group">
-                    <label for="noteTitle">Title</label>
-                    <input type="text" class="form-control" id="noteTitle" placeholder="Enter note title" required>
+            <div class="modal-header">
+                <h3 class="modal-title">Enter Password</h3>
+                <button class="close-btn" id="close-password-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="password-form">
+                    <input type="hidden" id="password-note-id">
+                    <div class="form-group">
+                        <label for="input-password" class="form-label">Password</label>
+                        <input type="password" id="input-password" class="form-input" required>
+                    </div>
+                    <div class="form-group" id="hint-container" style="display: none;">
+                        <p class="password-hint"><strong>Hint:</strong> <span id="password-hint-text"></span></p>
+                    </div>
+                    <p id="password-error" style="color: var(--danger-color); display: none;">Incorrect password. Please try again.</p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancel-password">Cancel</button>
+                <button type="button" class="btn btn-primary" id="submit-password">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add secure note modal -->
+    <div class="modal" id="add-secure-modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3 class="modal-title">Add Note To</h3>
+                <button class="close-btn" id="close-add-secure-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; padding: 20px 0;">
+                    <button class="btn btn-primary" style="width: 100%; margin-bottom: 15px;" id="add-regular-note">
+                        <i class="fas fa-sticky-note" style="margin-right: 8px;"></i> Regular Notes
+                    </button>
+                    <button class="btn btn-primary" style="width: 100%;" id="add-secure-note">
+                        <i class="fas fa-lock" style="margin-right: 8px;"></i> Secure Folder
+                    </button>
                 </div>
-                <div class="form-group">
-                    <label for="noteContent">Content</label>
-                    <textarea class="form-control" id="noteContent" placeholder="Write your note here..." required></textarea>
-                </div>
-                <button type="submit" class="submit-btn" id="saveNoteBtn">Save Note</button>
-            </form>
+            </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // DOM Elements
-            const notesGrid = document.getElementById('notesGrid');
-            const emptyState = document.getElementById('emptyState');
-            const addNoteBtn = document.getElementById('addNoteBtn');
-            const noteModal = document.getElementById('noteModal');
-            const closeModal = document.getElementById('closeModal');
-            const noteForm = document.getElementById('noteForm');
-            const noteTitle = document.getElementById('noteTitle');
-            const noteContent = document.getElementById('noteContent');
-            const modalTitle = document.getElementById('modalTitle');
-            const noteId = document.getElementById('noteId');
+            const addNoteBtn = document.getElementById('add-note-btn');
+            const noteModal = document.getElementById('note-modal');
+            const passwordModal = document.getElementById('password-modal');
+            const addSecureModal = document.getElementById('add-secure-modal');
+            const closeModalBtn = document.getElementById('close-modal');
+            const closePasswordModalBtn = document.getElementById('close-password-modal');
+            const closeAddSecureModalBtn = document.getElementById('close-add-secure-modal');
+            const cancelNoteBtn = document.getElementById('cancel-note');
+            const cancelPasswordBtn = document.getElementById('cancel-password');
+            const saveNoteBtn = document.getElementById('save-note');
+            const submitPasswordBtn = document.getElementById('submit-password');
+            const noteForm = document.getElementById('note-form');
+            const passwordForm = document.getElementById('password-form');
+            const regularNotesContainer = document.getElementById('regular-notes-container');
+            const secureNotesContainer = document.getElementById('secure-notes-container');
+            const regularNotesEmpty = document.getElementById('regular-notes-empty');
+            const secureNotesEmpty = document.getElementById('secure-notes-empty');
+            const addRegularNoteBtn = document.getElementById('add-regular-note');
+            const addSecureNoteBtn = document.getElementById('add-secure-note');
 
-            // Notes array
+            // State
             let notes = JSON.parse(localStorage.getItem('notes')) || [];
+            let currentNoteId = null;
+            let isEditing = false;
 
-            // Display notes
-            function displayNotes() {
-                notesGrid.innerHTML = '';
+            // Initialize the app
+            function init() {
+                renderNotes();
+                setupEventListeners();
+            }
+
+            // Set up event listeners
+            function setupEventListeners() {
+                addNoteBtn.addEventListener('click', showAddSecureModal);
+                closeModalBtn.addEventListener('click', closeNoteModal);
+                closePasswordModalBtn.addEventListener('click', closePasswordModal);
+                closeAddSecureModalBtn.addEventListener('click', closeAddSecureModal);
+                cancelNoteBtn.addEventListener('click', closeNoteModal);
+                cancelPasswordBtn.addEventListener('click', closePasswordModal);
+                saveNoteBtn.addEventListener('click', saveNote);
+                submitPasswordBtn.addEventListener('click', checkPassword);
+                addRegularNoteBtn.addEventListener('click', () => {
+                    closeAddSecureModal();
+                    openNoteModal(false);
+                });
+                addSecureNoteBtn.addEventListener('click', () => {
+                    closeAddSecureModal();
+                    openNoteModal(true);
+                });
+
+                // Close modals when clicking outside
+                window.addEventListener('click', (e) => {
+                    if (e.target === noteModal) closeNoteModal();
+                    if (e.target === passwordModal) closePasswordModal();
+                    if (e.target === addSecureModal) closeAddSecureModal();
+                });
+            }
+
+            // Show add secure modal
+            function showAddSecureModal() {
+                addSecureModal.classList.add('active');
+            }
+
+            // Close add secure modal
+            function closeAddSecureModal() {
+                addSecureModal.classList.remove('active');
+            }
+
+            // Open note modal
+            function openNoteModal(isSecure, noteId = null) {
+                const modalTitle = document.getElementById('modal-title');
+                const secureFields = document.getElementById('secure-fields');
+                const noteSecureInput = document.getElementById('note-secure');
+
+                if (noteId) {
+                    // Editing existing note
+                    currentNoteId = noteId;
+                    isEditing = true;
+                    const note = notes.find(n => n.id === noteId);
+                    
+                    document.getElementById('note-id').value = noteId;
+                    document.getElementById('note-title').value = note.title;
+                    document.getElementById('note-content').value = note.content;
+                    noteSecureInput.value = note.secure ? 'true' : 'false';
+                    
+                    if (note.secure) {
+                        secureFields.style.display = 'block';
+                        document.getElementById('note-password').value = note.password || '';
+                        document.getElementById('note-hint').value = note.hint || '';
+                        modalTitle.textContent = 'Edit Secure Note';
+                    } else {
+                        secureFields.style.display = 'none';
+                        modalTitle.textContent = 'Edit Note';
+                    }
+                } else {
+                    // Creating new note
+                    currentNoteId = null;
+                    isEditing = false;
+                    noteForm.reset();
+                    noteSecureInput.value = isSecure ? 'true' : 'false';
+                    
+                    if (isSecure) {
+                        secureFields.style.display = 'block';
+                        modalTitle.textContent = 'Add Secure Note';
+                    } else {
+                        secureFields.style.display = 'none';
+                        modalTitle.textContent = 'Add Note';
+                    }
+                }
+
+                noteModal.classList.add('active');
+            }
+
+            // Close note modal
+            function closeNoteModal() {
+                noteModal.classList.remove('active');
+            }
+
+            // Open password modal
+            function openPasswordModal(noteId) {
+                currentNoteId = noteId;
+                const note = notes.find(n => n.id === noteId);
                 
-                if (notes.length === 0) {
-                    emptyState.style.display = 'block';
+                document.getElementById('password-note-id').value = noteId;
+                document.getElementById('input-password').value = '';
+                document.getElementById('password-error').style.display = 'none';
+                
+                if (note.hint) {
+                    document.getElementById('hint-container').style.display = 'block';
+                    document.getElementById('password-hint-text').textContent = note.hint;
+                } else {
+                    document.getElementById('hint-container').style.display = 'none';
+                }
+                
+                passwordModal.classList.add('active');
+            }
+
+            // Close password modal
+            function closePasswordModal() {
+                passwordModal.classList.remove('active');
+            }
+
+            // Check password for secure note
+            function checkPassword() {
+                const password = document.getElementById('input-password').value;
+                const note = notes.find(n => n.id === currentNoteId);
+                
+                if (note.password === password) {
+                    // Password is correct, show the note
+                    closePasswordModal();
+                    openNoteModal(true, currentNoteId);
+                } else {
+                    // Password is incorrect
+                    document.getElementById('password-error').style.display = 'block';
+                }
+            }
+
+            // Save note
+            function saveNote() {
+                const title = document.getElementById('note-title').value.trim();
+                const content = document.getElementById('note-content').value.trim();
+                const isSecure = document.getElementById('note-secure').value === 'true';
+                const password = isSecure ? document.getElementById('note-password').value.trim() : '';
+                const hint = isSecure ? document.getElementById('note-hint').value.trim() : '';
+                
+                if (!title || !content) {
+                    alert('Please fill in all required fields');
                     return;
                 }
                 
-                emptyState.style.display = 'none';
-                
-                notes.forEach((note, index) => {
-                    const noteCard = document.createElement('div');
-                    noteCard.className = 'note-card';
-                    noteCard.style.animationDelay = `${index * 0.1}s`;
-                    
-                    // Format date
-                    const date = new Date(note.date);
-                    const formattedDate = date.toLocaleDateString('en-US', { 
-                        month: 'short', 
-                        day: 'numeric', 
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    });
-                    
-                    // Create preview (first 100 characters)
-                    const preview = note.content.length > 100 
-                        ? note.content.substring(0, 100) + '...' 
-                        : note.content;
-                    
-                    noteCard.innerHTML = `
-                        <div class="note-header">
-                            <h3 class="note-title">${note.title}</h3>
-                            <span class="note-date">${formattedDate}</span>
-                        </div>
-                        <div class="note-content-preview">${preview}</div>
-                        <div class="note-actions">
-                            <button class="action-btn edit-btn" data-id="${note.id}">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="action-btn delete-btn" data-id="${note.id}">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </div>
-                    `;
-                    
-                    notesGrid.appendChild(noteCard);
-                });
-                
-                // Add event listeners to note cards
-                document.querySelectorAll('.note-card').forEach(card => {
-                    card.addEventListener('click', function(e) {
-                        if (!e.target.closest('.action-btn')) {
-                            const id = e.currentTarget.querySelector('.edit-btn').dataset.id;
-                            editNote(id);
-                        }
-                    });
-                });
-                
-                // Add event listeners to edit buttons
-                document.querySelectorAll('.edit-btn').forEach(btn => {
-                    btn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        const id = this.dataset.id;
-                        editNote(id);
-                    });
-                });
-                
-                // Add event listeners to delete buttons
-                document.querySelectorAll('.delete-btn').forEach(btn => {
-                    btn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        const id = this.dataset.id;
-                        deleteNote(id);
-                    });
-                });
-            }
-            
-            // Add new note
-            function addNote() {
-                noteId.value = '';
-                noteForm.reset();
-                modalTitle.textContent = 'Add New Note';
-                noteModal.style.display = 'flex';
-                noteTitle.focus();
-            }
-            
-            // Edit note
-            function editNote(id) {
-                const note = notes.find(note => note.id === id);
-                if (note) {
-                    noteId.value = note.id;
-                    noteTitle.value = note.title;
-                    noteContent.value = note.content;
-                    modalTitle.textContent = 'Edit Note';
-                    noteModal.style.display = 'flex';
-                }
-            }
-            
-            // Delete note
-            function deleteNote(id) {
-                if (confirm('Are you sure you want to delete this note?')) {
-                    notes = notes.filter(note => note.id !== id);
-                    saveNotes();
-                    displayNotes();
-                }
-            }
-            
-            // Save note
-            function saveNote(e) {
-                e.preventDefault();
-                
-                const title = noteTitle.value.trim();
-                const content = noteContent.value.trim();
-                
-                if (!title || !content) {
-                    alert('Please fill in both title and content');
+                if (isSecure && !password) {
+                    alert('Please set a password for your secure note');
                     return;
                 }
                 
                 const now = new Date();
+                const dateString = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
                 
-                if (noteId.value) {
+                if (isEditing) {
                     // Update existing note
-                    const index = notes.findIndex(note => note.id === noteId.value);
-                    if (index !== -1) {
-                        notes[index] = {
-                            ...notes[index],
+                    const noteIndex = notes.findIndex(n => n.id === currentNoteId);
+                    if (noteIndex !== -1) {
+                        notes[noteIndex] = {
+                            ...notes[noteIndex],
                             title,
                             content,
-                            date: now.toISOString()
+                            password: isSecure ? password : '',
+                            hint: isSecure ? hint : '',
+                            updatedAt: dateString
                         };
                     }
                 } else {
-                    // Add new note
+                    // Create new note
                     const newNote = {
                         id: Date.now().toString(),
                         title,
                         content,
-                        date: now.toISOString()
+                        secure: isSecure,
+                        password: isSecure ? password : '',
+                        hint: isSecure ? hint : '',
+                        createdAt: dateString,
+                        updatedAt: dateString
                     };
-                    notes.unshift(newNote);
+                    notes.push(newNote);
                 }
                 
-                saveNotes();
-                displayNotes();
-                noteModal.style.display = 'none';
+                saveNotesToLocalStorage();
+                renderNotes();
+                closeNoteModal();
             }
-            
+
+            // Delete note
+            function deleteNote(noteId) {
+                if (confirm('Are you sure you want to delete this note?')) {
+                    notes = notes.filter(note => note.id !== noteId);
+                    saveNotesToLocalStorage();
+                    renderNotes();
+                }
+            }
+
             // Save notes to localStorage
-            function saveNotes() {
+            function saveNotesToLocalStorage() {
                 localStorage.setItem('notes', JSON.stringify(notes));
             }
-            
-            // Event listeners
-            addNoteBtn.addEventListener('click', addNote);
-            closeModal.addEventListener('click', () => {
-                noteModal.style.display = 'none';
-            });
-            noteForm.addEventListener('submit', saveNote);
-            
-            // Close modal when clicking outside
-            window.addEventListener('click', (e) => {
-                if (e.target === noteModal) {
-                    noteModal.style.display = 'none';
-                }
-            });
-            
-            // Initial display
-            displayNotes();
+
+            // Render notes
+            function renderNotes() {
+                // Clear containers
+                regularNotesContainer.innerHTML = '';
+                secureNotesContainer.innerHTML = '';
+                
+                // Filter notes
+                const regularNotes = notes.filter(note => !note.secure);
+                const secureNotes = notes.filter(note => note.secure);
+                
+                // Show/hide empty states
+                regularNotesEmpty.style.display = regularNotes.length ? 'none' : 'block';
+                secureNotesEmpty.style.display = secureNotes.length ? 'none' : 'block';
+                
+                // Render regular notes
+                regularNotes.forEach((note, index) => {
+                    const noteCard = createNoteCard(note, index);
+                    regularNotesContainer.appendChild(noteCard);
+                });
+                
+                // Render secure notes
+                secureNotes.forEach((note, index) => {
+                    const noteCard = createNoteCard(note, index);
+                    secureNotesContainer.appendChild(noteCard);
+                });
+            }
+
+            // Create note card element
+            function createNoteCard(note, index) {
+                const noteCard = document.createElement('div');
+                noteCard.className = `note-card fade-in delay-${index % 4}`;
+                if (note.secure) noteCard.classList.add('secure');
+                
+                const preview = note.secure 
+                    ? '<div class="note-preview"><i class="fas fa-lock"></i> This note is secured</div>'
+                    : `<div class="note-preview">${note.content.substring(0, 100)}${note.content.length > 100 ? '...' : ''}</div>`;
+                
+                noteCard.innerHTML = `
+                    ${note.secure ? '<i class="fas fa-lock secure-icon"></i>' : ''}
+                    <h3 class="note-title">${note.title}</h3>
+                    ${preview}
+                    <div class="note-date">${note.updatedAt || note.createdAt}</div>
+                    <div class="note-actions">
+                        <button class="note-action-btn edit-btn" data-id="${note.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="note-action-btn delete-btn" data-id="${note.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                
+                // Add event listeners to action buttons
+                const editBtn = noteCard.querySelector('.edit-btn');
+                const deleteBtn = noteCard.querySelector('.delete-btn');
+                
+                editBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (note.secure) {
+                        openPasswordModal(note.id);
+                    } else {
+                        openNoteModal(false, note.id);
+                    }
+                });
+                
+                deleteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    deleteNote(note.id);
+                });
+                
+                // Click on card to view
+                noteCard.addEventListener('click', () => {
+                    if (note.secure) {
+                        openPasswordModal(note.id);
+                    } else {
+                        openNoteModal(false, note.id);
+                    }
+                });
+                
+                return noteCard;
+            }
+
+            // Initialize the app
+            init();
         });
     </script>
 </body>
