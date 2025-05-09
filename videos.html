@@ -6,417 +6,58 @@
     <title> IBP FAMILY TREE</title>
     <link rel="website icon" type="png" href="aa.jfif">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
         
         :root {
-            --primary-color: #5d4e7b;
-            --secondary-color: #ff9a76;
-            --accent-color: #f8d49a;
-            --text-color: #333;
-            --light-bg: #f8f5f2;
-            --dark-bg: #2d2833;
-            --card-shadow: 0 15px 30px rgba(0,0,0,0.12);
-            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            --bloom-effect: radial-gradient(circle at center, rgba(253,245,230,0.8) 0%, rgba(253,245,230,0) 70%);
-        }
+    --primary-color: #091b2c;         /* Deep blue */
+    --secondary-color: #e74c3c;      /* Vibrant red */
+    --accent-color: #f39c12;         /* Warm orange */
+    --text-color: #03192e;           /* Dark blue-gray for text */
+    --light-bg: #ecf0f1;             /* Very light gray */
+    --dark-bg: #0b172c;              /* Deep navy */
+    --card-shadow: 0 10px 20px rgba(14, 3, 24, 0.938);
+    --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --bloom-effect: radial-gradient(circle at center, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+    
+    /* New complementary colors */
+    --success-color: #27ae60;        /* Green */
+    --warning-color: #f1c40f;        /* Yellow */
+    --info-color: #3498db;           /* Blue */
+    --light-text: #7712a7;           /* For text on dark backgrounds */
+    --highlight-color: #9b59b6;      /* Purple for accents */
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-image: url('https://www.transparenttextures.com/patterns/soft-paper.png');
+}
         
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--light-bg);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
-        }
+.header {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--dark-bg));
+    color: white;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.76);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+
         
-        .header {
-            text-align: center;
-            padding: 3rem 2rem;
-            background: linear-gradient(135deg, var(--primary-color), #7a5c9e);
-            color: white;
-            margin-bottom: 2rem;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 5px 25px rgba(93, 78, 123, 0.3);
-        }
-        
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--bloom-effect);
-            z-index: 1;
-        }
-        
-        .header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            margin: 0;
-            font-weight: 700;
-            position: relative;
-            z-index: 2;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            animation: fadeInDown 1s ease-out;
-        }
-        
-        .header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 1rem auto 0;
-            position: relative;
-            z-index: 2;
-            animation: fadeIn 1.5s ease-out;
-        }
-        
-        .tree-container {
-            width: 100%;
-            min-height: 70vh;
-            position: relative;
-            overflow: hidden;
-            padding: 2rem 0;
-            background-image: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png');
-        }
-        
-        .tree-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M50 0 L60 40 L100 50 L60 60 L50 100 L40 60 L0 50 L40 40 Z" fill="%235d4e7b" opacity="0.05"/></svg>');
-            background-size: 100px 100px;
-            z-index: 0;
-            opacity: 0.3;
-        }
-        
-        .generation {
-            display: flex;
-            justify-content: center;
-            gap: 2.5rem;
-            flex-wrap: wrap;
-            transition: var(--transition);
-            padding: 2rem;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .couple-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .couple-connector {
-            width: 2px;
-            height: 30px;
-            background-color: var(--primary-color);
-            opacity: 0.3;
-        }
-        
-        .parents-container {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            width: 100%;
-        }
-        
-        .parent-card {
-            background: white;
-            border-radius: 16px;
-            box-shadow: var(--card-shadow);
-            width: 180px;
-            padding: 1.5rem 1rem;
-            text-align: center;
-            transition: var(--transition);
-            position: relative;
-            z-index: 2;
-            border: 2px solid var(--secondary-color);
-        }
-        
-        .person-card {
-            background: white;
-            border-radius: 16px;
-            box-shadow: var(--card-shadow);
-            width: 200px;
-            padding: 1.8rem 1.2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-            position: relative;
-            z-index: 2;
-            overflow: hidden;
-            transform-style: preserve-3d;
-            animation: floatIn 0.8s ease-out forwards;
-            opacity: 0;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-        
-        .person-card::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border-radius: 20px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            z-index: -1;
-            opacity: 0;
-            transition: var(--transition);
-        }
-        
-        .person-card:hover {
-            transform: translateY(-10px) scale(1.05) rotateY(5deg);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
-        }
-        
-        .person-card:hover::before {
-            opacity: 0.2;
-        }
-        
-        .person-card.active {
-            border: 3px solid var(--secondary-color);
-        }
-        
-        .person-img-container {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            margin: 0 auto 1.2rem;
-            position: relative;
-            overflow: hidden;
-            border: 4px solid white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: var(--transition);
-        }
-        
-        .parent-img-container {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin: 0 auto 1rem;
-            position: relative;
-            overflow: hidden;
-            border: 4px solid white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .person-card:hover .person-img-container {
-            transform: scale(1.1);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-        
-        .person-img, .parent-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-        
-        .person-card:hover .person-img {
-            transform: scale(1.05);
-        }
-        
-        .person-name, .parent-name {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--primary-color);
-            font-size: 1.1rem;
-            transition: var(--transition);
-        }
-        
-        .person-card:hover .person-name {
-            color: var(--secondary-color);
-        }
-        
-        .person-relation, .parent-relation {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-bottom: 0.5rem;
-        }
-        
-        .has-children {
-            font-size: 0.8rem;
-            margin-top: 0.5rem;
-            color: var(--secondary-color);
-            font-weight: 600;
-            opacity: 0;
-            transition: var(--transition);
-            transform: translateY(10px);
-        }
-        
-        .person-card:hover .has-children {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .connector {
-            position: absolute;
-            height: 2px;
-            background-color: var(--primary-color);
-            z-index: 1;
-            transform-origin: left center;
-            opacity: 0.3;
-        }
-        
-        .family-connector {
-            position: relative;
-            width: 100%;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            margin-bottom: 1rem;
-        }
-        
-        .connector-line {
-            height: 2px;
-            width: 60%;
-            background-color: var(--primary-color);
-            position: relative;
-            opacity: 0.5;
-        }
-        
-        .connector-line::before {
-            content: '';
-            position: absolute;
-            width: 2px;
-            height: 20px;
-            background-color: var(--primary-color);
-            left: 50%;
-            top: 0;
-            transform: translateX(-50%);
-        }
-        
-        .nav-buttons {
-            text-align: center;
-            margin: 2rem 0;
-            position: relative;
-            z-index: 3;
-        }
-        
-        .nav-btn {
-            background: linear-gradient(45deg, var(--primary-color), #7a5c9e);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            cursor: pointer;
-            margin: 0 1rem;
-            transition: var(--transition);
-            font-size: 1rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            box-shadow: 0 5px 15px rgba(93, 78, 123, 0.3);
-            position: relative;
-            overflow: hidden;
-            min-width: 120px;
-        }
-        
-        .nav-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
-        }
-        
-        .nav-btn:hover {
-            background: linear-gradient(45deg, var(--secondary-color), #ff7e5f);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 154, 118, 0.4);
-        }
-        
-        .nav-btn:hover::before {
-            left: 100%;
-        }
-        
-        .nav-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none !important;
-            background: linear-gradient(45deg, #aaa, #ccc);
-        }
-        
-        .memory-section {
-            max-width: 800px;
-            margin: 3rem auto;
-            padding: 3rem;
-            background: white;
-            border-radius: 20px;
-            box-shadow: var(--card-shadow);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(0,0,0,0.05);
-            transform-style: preserve-3d;
-        }
-        
-        .memory-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--bloom-effect);
-            z-index: -1;
-        }
-        
-        .memory-section h2 {
-            font-family: 'Playfair Display', serif;
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .memory-section h2::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 60px;
-            height: 3px;
-            background: var(--secondary-color);
-            border-radius: 3px;
-        }
-        
-        #memoryContent {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #555;
-            position: relative;
-        }
-        
-        .floating-leaves {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-        
-        .leaf {
-            position: absolute;
-            width: 25px;
-            height: 25px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            opacity: 0.7;
-            z-index: 1;
-            animation: floatLeaf linear infinite;
-        }
+      
         
         @keyframes floatIn {
             from {
@@ -705,6 +346,183 @@
                 opacity: 1;
             }
         }
+         /* Modern Navbar Styles */
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .secondary-nav {
+    background: linear-gradient(135deg, var(--primary-color), #090d42);
+    padding: 0.8rem 1rem;
+    margin: 0 auto 2rem;
+    max-width: 1000px;
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(9, 1, 26, 0.877);
+    position: relative;
+    overflow: hidden;
+}
+
+.secondary-nav::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+        rgba(3, 15, 39, 0.658) 0%, 
+        rgba(91, 10, 116, 0.527) 50%, 
+        rgba(24, 11, 44, 0.267) 100%);
+    z-index: 1;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+}
+
+.nav-link {
+    position: relative;
+    padding: 0.8rem 1.2rem;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 30px;
+}
+
+.nav-link i {
+    font-size: 1.4rem;
+    margin-bottom: 0.3rem;
+    transition: transform 0.3s ease;
+}
+
+.nav-link span {
+    font-size: 0.9rem;
+}
+
+.nav-link:hover {
+    background: rgba(204, 241, 238, 0.479);
+    transform: translateY(-3px);
+}
+
+.nav-link:hover i {
+    transform: scale(1.2);
+}
+
+.nav-link.active {
+    background: var(--secondary-color);
+    box-shadow: 0 5px 15px rgba(255, 154, 118, 0.4);
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .secondary-nav {
+        border-radius: 20px;
+        padding: 0.5rem;
+    }
+    
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .nav-link {
+        padding: 0.6rem 0.8rem;
+        margin: 0.2rem;
+        font-size: 0.9rem;
+        flex: 1 0 40%;
+        max-width: 45%;
+        box-sizing: border-box;
+        text-align: center;
+    }
+    
+    .nav-link i {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-link {
+        flex: 1 0 100%;
+        max-width: 100%;
+        margin: 0.2rem 0;
+        border-radius: 10px;
+    }
+}
+
+/* Animation for active state */
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(25, 1, 82, 0.795);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 154, 118, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 154, 118, 0);
+    }
+}
+
+.nav-link:active {
+    animation: pulse-glow 0.5s;
+    transform: scale(0.95);
+}
+
+/* Loading animation for pages */
+@keyframes pageLoad {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.page-content {
+    animation: pageLoad 0.6s ease-out;
+}
+    
+    /* Loading animation for pages */
+    @keyframes pageLoad {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .page-content {
+        animation: pageLoad 0.6s ease-out;
+    }
         .video-gallery-section {
   padding: 40px 20px;
   background: linear-gradient(to right, #f0f0f0, #ffffff);
@@ -784,243 +602,68 @@
 
 
 
+@media (max-width: 480px) {
+  #videoSearchInput {
+    width: 90% !important;
+    font-size: 1rem;
+  }
+}
 
-.secondary-nav {
-        background: linear-gradient(135deg, var(--primary-color), #7a5c9e);
-        padding: 0.8rem 1rem;
-        margin: 0 auto 2rem;
-        max-width: 1000px;
-        border-radius: 50px;
-        box-shadow: 0 10px 30px rgba(93, 78, 123, 0.3);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .secondary-nav::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(45deg, 
-            rgba(255,255,255,0.1) 0%, 
-            rgba(255,255,255,0.3) 50%, 
-            rgba(255,255,255,0.1) 100%);
-        z-index: 1;
-    }
-    
-    .nav-links {
-        display: flex;
-        justify-content: space-around;
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        position: relative;
-        z-index: 2;
-    }
-    
-    .nav-link {
-        position: relative;
-        padding: 0.8rem 1.2rem;
-        color: white;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 1rem;
-        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        border-radius: 30px;
-    }
-    
-    .nav-link i {
-        font-size: 1.4rem;
-        margin-bottom: 0.3rem;
-        transition: transform 0.3s ease;
-    }
-    
-    .nav-link span {
-        font-size: 0.9rem;
-    }
-    
-    .nav-link:hover {
-        background: rgba(255,255,255,0.2);
-        transform: translateY(-3px);
-    }
-    
-    .nav-link:hover i {
-        transform: scale(1.2);
-    }
-    
-    .nav-link.active {
-        background: var(--secondary-color);
-        box-shadow: 0 5px 15px rgba(255, 154, 118, 0.4);
-    }
-    
-    /* Mobile Styles */
-    @media (max-width: 768px) {
-        .secondary-nav {
-            border-radius: 20px;
-            padding: 0.5rem;
-        }
-        
-        .nav-links {
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .nav-link {
-            padding: 0.6rem 0.8rem;
-            margin: 0.2rem;
-            font-size: 0.9rem;
-            flex: 1 0 40%;
-            max-width: 45%;
-            box-sizing: border-box;
-            text-align: center;
-        }
-        
-        .nav-link i {
-            font-size: 1.2rem;
-        }
-    }
-    
-    @media (max-width: 480px) {
-        .nav-link {
-            flex: 1 0 100%;
-            max-width: 100%;
-            margin: 0.2rem 0;
-            border-radius: 10px;
-        }
-    }
-    
-    /* Animation for active state */
-    @keyframes pulse-glow {
-        0% {
-            box-shadow: 0 0 0 0 rgba(255, 154, 118, 0.7);
-        }
-        70% {
-            box-shadow: 0 0 0 10px rgba(255, 154, 118, 0);
-        }
-        100% {
-            box-shadow: 0 0 0 0 rgba(255, 154, 118, 0);
-        }
-    }
-    
-    .nav-link:active {
-        animation: pulse-glow 0.5s;
-        transform: scale(0.95);
-    }
-    
-    /* Loading animation for pages */
-    @keyframes pageLoad {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    .page-content {
-        animation: pageLoad 0.6s ease-out;
-    }
+
     </style>
 </head>
 <body>
     <div class="floating-leaves" id="floatingLeaves"></div>
-    
-    <div class="header pulse">
-        <h1>IBP FAMILY TREE</h1>
-        <p></p>
-    </div>
-    <nav class="secondary-nav">
+   
+   <nav class="secondary-nav">
         <ul class="nav-links">
             <li>
-                <a href="index.html" class="nav-link" id="videosLink">
-                    <i>🏡</i>
-                    <span>Home</span>
+                <a href="https://ibpofficial.github.io/Family" class="nav-link" id="videosLink">
+                    <i class="fas fa-video"></i>
+                    <span>HOME</span>
                 </a>
             </li>
             <li>
-                <a href="about.html" class="nav-link" id="aboutLink">
-                    <i>ℹ️</i>
-                    <span>About</span>
+                <a href="https://ibpofficial.github.io/Family/about.html" class="nav-link" id="aboutLink">
+                    <i class="fas fa-info-circle"></i>
+                    <span>ABOUT</span>
                 </a>
             </li>
             <li>
-                <a href="audio.html" class="nav-link" id="audioLink">
-                    <i>🎵</i>
-                    <span>Audio</span>
+                <a href="https://ibpofficial.github.io/audio" class="nav-link" id="aboutLink">
+                    <i class="fas fa-home"></i>
+                    <span>AUDIO</span>
                 </a>
             </li>
+            
             <li>
-                <a href="notes.html" class="nav-link" id="notesLink">
-                    <i>📝</i>
-                    <span>Notes</span>
+                <a href="https://ibpofficial.github.io/Family/notes.html" class="nav-link" id="notesLink">
+                    <i class="fas fa-music"></i>
+                    <span>NOTES</span>
                 </a>
             </li>
         </ul>
     </nav>
+    <div style="margin-bottom: 20px; text-align: center;">
+  <input 
+    type="text" 
+    id="videoSearchInput" 
+    placeholder="Search videos..." 
+    oninput="handleVideoSearch()" 
+    style="padding: 0.8rem; width: 80%; max-width: 500px; font-size: 1rem; border-radius: 20px; border: 2px solid #ccc;"
+  >
+  <div id="videoSuggestion" style="margin-top: 10px; color: #e74c3c; font-weight: 500;"></div>
+</div>
+
 
     <section class="video-gallery-section">
-        <h2 class="gallery-title">🎥 Watch Our Latest Videos</h2>
+        <h2 class="gallery-title">Watch Our Latest Videos</h2>
         <div class="video-gallery" id="video-gallery">
           <!-- Video cards will be injected here by JavaScript -->
         </div>
       </section>
       
-   
-    <div id="birthdayBanner" style="display: none; max-width: 600px; margin: 2rem auto; padding: 1.5rem; background: #fff6e6; border: 2px dashed var(--secondary-color); border-radius: 16px; box-shadow: var(--card-shadow); text-align: center;">
-        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">🎉 Happy Birthday!</h3>
-        <p id="birthdayNames" style="font-size: 1.2rem; color: #333;"></p>
-      </div>
-    
-    <div class="tree-container">
-        <div class="tree-background"></div>
-        <div id="treeContainer">
-            <!-- Generations will be dynamically inserted here -->
-        </div>
-    </div>
-    <
-        <!-- Add this as a new section in your HTML where you want it to appear -->
-<section id="anniversary-section" style="background: linear-gradient(135deg, #1d5b96c9 0%, #fad0c4 100%); padding: 30px 0; margin: 40px 0; border-top: 3px solid #1c1272a8; border-bottom: 3px solid #8b0000;">
-    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
-      <div class="anniversary-content" style="text-align: center; color: #060330; font-family: 'Arial', sans-serif;">
-        <h2 style="font-size: clamp(24px, 4vw, 36px); margin-bottom: 15px; text-shadow: 1px 1px 2px rgba(255,255,255,0.7);">🎉 Bhawana & Prakash's 20th Anniversary 🎉</h2>
-        <p style="font-size: clamp(16px, 2.5vw, 20px); margin-bottom: 20px;">Celebrating 20 wonderful years together on May 10th, 2025!</p>
-        
-        <div class="countdown-container" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin: 20px 0;">
-          <div class="countdown-unit" style="background-color: rgba(255,255,255,0.3); border-radius: 8px; padding: 10px; min-width: 70px;">
-            <div class="countdown-number" id="days" style="font-weight: bold; font-size: clamp(24px, 5vw, 32px);">00</div>
-            <div style="font-size: clamp(12px, 2vw, 14px);">Days</div>
-          </div>
-          <div class="countdown-unit" style="background-color: rgba(255,255,255,0.3); border-radius: 8px; padding: 10px; min-width: 70px;">
-            <div class="countdown-number" id="hours" style="font-weight: bold; font-size: clamp(24px, 5vw, 32px);">00</div>
-            <div style="font-size: clamp(12px, 2vw, 14px);">Hours</div>
-          </div>
-          <div class="countdown-unit" style="background-color: rgba(255,255,255,0.3); border-radius: 8px; padding: 10px; min-width: 70px;">
-            <div class="countdown-number" id="minutes" style="font-weight: bold; font-size: clamp(24px, 5vw, 32px);">00</div>
-            <div style="font-size: clamp(12px, 2vw, 14px);">Minutes</div>
-          </div>
-          <div class="countdown-unit" style="background-color: rgba(255,255,255,0.3); border-radius: 8px; padding: 10px; min-width: 70px;">
-            <div class="countdown-number" id="seconds" style="font-weight: bold; font-size: clamp(24px, 5vw, 32px);">00</div>
-            <div style="font-size: clamp(12px, 2vw, 14px);">Seconds</div>
-          </div>
-        </div>
-        
-        <div class="anniversary-image-container" style="position: relative; margin-top: 30px; display: flex; justify-content: center; align-items: center;">
-          <img id="prakash-image" src="papa.jpeg" alt="Prakash" style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%; border: 3px solid #8b0000; animation: float 3s ease-in-out infinite;">
-          <img id="bhawana-image" src="teena.jpeg" alt="Bhawana" style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%; border: 3px solid #8b0000; animation: float 3s ease-in-out infinite 1.5s; margin-left: 20px;">
-        </div>
-      </div>
-    </div>
-    </div>
-    
-    
-    
+      
     
     
 
@@ -1039,8 +682,34 @@ const videoData = [
   },
   {
     title: "Michael Jackson - Billie Jean",
-    url: "https://www.youtube.com/watch?v=Zi_XLOBDo_Y"
+    url: "https://www.youtube.com/watch?v=xJ3vatsNQDU"
+  },
+  {
+    title: "Michael Jackson - Billie Jean",
+    url: "https://www.youtube.com/watch?v=xJ3vatsNQDU"
+  },
+  {
+    title: "Michael Jackson - Billie Jean",
+    url: "https://www.youtube.com/watch?v=xJ3vatsNQDU"
+  },
+  {
+    title: "Michael Jackson - Billie Jean",
+    url: "https://www.youtube.com/watch?v=xJ3vatsNQDU"
+  },
+  {
+    title: "Michael Jackson - Billie Jean",
+    url: "https://www.youtube.com/watch?v=xJ3vatsNQDU"
+  },
+  {
+    title: "Michael Jackson - Billie Jean",
+    url: "https://www.youtube.com/watch?v=xJ3vatsNQDU"
+  },
+  {
+    title: "Michael Jackson - Billie Jean",
+    url: "https://www.youtube.com/watch?v=xJ3vatsNQDU"
   }
+  
+  
 ];
 
 // Container to hold video cards
@@ -1121,271 +790,16 @@ function extractVideoId(url) {
         }
         </script>
      <script>
-        // Countdown timer set for May 10, 2025
-        function updateCountdown() {
-          const anniversaryDate = new Date('May 10, 2025 00:00:00').getTime();
-          const now = new Date().getTime();
-          const distance = anniversaryDate - now;
-          
-          // If countdown is finished
-          if (distance < 0) {
-            document.getElementById('anniversary-section').classList.add('celebration-mode');
-            document.querySelector('h2').textContent = "🎉 Happy 20th Anniversary Bhawana & Prakash! 🎉";
-            document.querySelector('.anniversary-content p').textContent = "Today marks 20 wonderful years together!";
-            
-            // Clear all countdown numbers
-            document.getElementById('days').innerHTML = '00';
-            document.getElementById('hours').innerHTML = '00';
-            document.getElementById('minutes').innerHTML = '00';
-            document.getElementById('seconds').innerHTML = '00';
-            
-            // Replace individual images with combined PB image
-            const imageContainer = document.querySelector('.anniversary-image-container');
-            imageContainer.innerHTML = ''; // Remove existing images
-            
-            // Create and add the combined PB image
-            const combinedImage = document.createElement('img');
-            combinedImage.src = 'both.jpeg'; // Update with your PB image path
-            combinedImage.alt = 'Bhawana and Prakash';
-            combinedImage.className = 'combined-image';
-            imageContainer.appendChild(combinedImage);
-            
-            // Increase animation frequency
-            clearInterval(animationInterval);
-            animationInterval = setInterval(() => {
-              createConfetti(imageContainer);
-              createHeart(imageContainer);
-              createCake(imageContainer);
-            }, 100);
-            
-            return;
-          }
-          
-          // Time calculations
-          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-          
-          // Display results
-          document.getElementById('days').innerHTML = days.toString().padStart(2, '0');
-          document.getElementById('hours').innerHTML = hours.toString().padStart(2, '0');
-          document.getElementById('minutes').innerHTML = minutes.toString().padStart(2, '0');
-          document.getElementById('seconds').innerHTML = seconds.toString().padStart(2, '0');
-        }
         
-        // Animation variables
-        let animationInterval;
-        let container;
+       
         
-        // Animation effects
-        document.addEventListener('DOMContentLoaded', function() {
-          const prakashImage = document.getElementById('prakash-image');
-          const bhawanaImage = document.getElementById('bhawana-image');
-          container = document.querySelector('.anniversary-image-container');
-          
-          if (prakashImage && bhawanaImage) {
-            // Create floating animations
-            prakashImage.style.animation = 'float 3s ease-in-out infinite';
-            bhawanaImage.style.animation = 'float 3s ease-in-out infinite 1.5s';
-            
-            // Create particles between the images
-            animationInterval = setInterval(() => {
-              createConfetti(container);
-              createHeart(container);
-              createCake(container);
-            }, 300);
-          }
-          
-          // Initialize countdown
-          updateCountdown();
-        });
         
-        // Update countdown every second
-        setInterval(updateCountdown, 1000);
         
-        function createConfetti(parentElement) {
-          const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff'];
-          const confetti = document.createElement('div');
-          confetti.className = 'confetti';
-          confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-          confetti.style.left = Math.random() * 80 + 10 + '%';
-          confetti.style.top = '50%';
-          
-          parentElement.appendChild(confetti);
-          
-          setTimeout(() => {
-            confetti.style.animation = 'confetti 2s linear forwards';
-          }, 10);
-          
-          setTimeout(() => {
-            confetti.remove();
-          }, 2100);
-        }
-        
-        function createHeart(parentElement) {
-          const heart = document.createElement('div');
-          heart.className = 'heart';
-          heart.innerHTML = '❤️';
-          heart.style.left = Math.random() * 60 + 20 + '%';
-          heart.style.top = '60%';
-          
-          parentElement.appendChild(heart);
-          
-          setTimeout(() => {
-            heart.style.animation = 'heart 1.5s ease-out forwards';
-          }, 10);
-          
-          setTimeout(() => {
-            heart.remove();
-          }, 1600);
-        }
-        
-        function createCake(parentElement) {
-          const emojis = ['🎂', '🍰', '🧁', '🎉', '🥂', '💐'];
-          const cake = document.createElement('div');
-          cake.className = 'cake';
-          cake.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-          cake.style.left = Math.random() * 60 + 20 + '%';
-          cake.style.top = '60%';
-          cake.style.fontSize = (Math.random() * 20 + 16) + 'px';
-          
-          parentElement.appendChild(cake);
-          
-          setTimeout(() => {
-            cake.style.animation = 'confetti 2s linear forwards';
-          }, 10);
-          
-          setTimeout(() => {
-            cake.remove();
-          }, 2100);
-        }
       </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
 <script>
-  // Flatten the family data for search
-  const flatFamilyList = [];
-
-  function flattenFamily(node) {
-    flatFamilyList.push({
-      id: node.id,
-      name: node.name,
-      relation: node.relation || '',
-      spouse: node.spouse || null,
-      children: node.children || [],
-      memory: node.memory || '',
-      image: node.image || ''
-    });
-    if (node.spouse) {
-      flatFamilyList.push({
-        id: node.id + '_spouse',
-        name: node.spouse.name,
-        relation: node.spouse.relation,
-        spouse: node.name,
-        children: node.children || [],
-        memory: '',
-        image: node.spouse.image
-      });
-    }
-    if (node.children) {
-      node.children.forEach(flattenFamily);
-    }
-  }
-  flattenFamily(familyData);
-
-  const fuse = new Fuse(flatFamilyList, {
-    keys: ['name'],
-    threshold: 0.4, // Adjust for fuzzy match
-  });
-
-  function handleSearch() {
-    const query = document.getElementById('searchInput').value.trim();
-    const results = fuse.search(query);
-    const suggestionBox = document.getElementById('searchSuggestion');
-
-    if (results.length === 0) {
-      suggestionBox.textContent = "No match found. Please check spelling.";
-      return;
-    }
-
-    suggestionBox.textContent = results.length > 0 && results[0].score > 0.2 
-      ? `Did you mean: ${results[0].item.name}?`
-      : "";
-
-    const person = results[0].item;
-    showPersonDetails(person);
-  }
-
-  function showPersonDetails(person) {
-  const container = document.createElement('div');
-  container.style.padding = '2rem';
-  container.style.background = '#fff';
-  container.style.borderRadius = '20px';
-  container.style.margin = '2rem auto';
-  container.style.maxWidth = '500px';
-  container.style.boxShadow = 'var(--card-shadow)';
-  container.style.textAlign = 'center';
-  container.style.position = 'relative';
-
-  container.innerHTML = `
-    <button onclick="clearSearch()" 
-      style="position: absolute; top: 10px; right: 10px; background: #ff5e5e; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 1rem; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">❌</button>
-    <img src="${person.image}" alt="${person.name}" style="width:120px; height:120px; border-radius:50%; object-fit:cover; border:3px solid #5d4e7b;">
-    <h2 style="color:#5d4e7b;">${person.name}</h2>
-    <p><strong>रिश्ता:</strong> ${person.relation}</p>
-    ${person.spouse ? `<p><strong>जीवनसाथी:</strong> ${person.spouse.name || person.spouse}</p>` : ''}
-    ${person.children.length > 0 ? `<p><strong>Children:</strong> ${person.children.map(child => child.name).join(', ')}</p>` : ''}
-    <p><strong>Memory:</strong> ${person.memory || 'No memory added.'}</p>
-  `;
-
-  treeContainer.innerHTML = '';
-  treeContainer.appendChild(container);
-  memoryContent.textContent = person.memory || 'No memory added.';
-}
-function clearSearch() {
-  document.getElementById('searchInput').value = '';
-  document.getElementById('searchSuggestion').textContent = '';
-  currentGeneration = familyData;
-  history = [];
-  backBtn.disabled = true;
-  renderGeneration(currentGeneration);
-}
-
-</script>
-    <script>
-function startGuessGame() {
-  const candidates = flatFamilyList.filter(p => p.image && p.name && !p.name.includes('NOT YET'));
-  const correct = candidates[Math.floor(Math.random() * candidates.length)];
-
-  const options = new Set([correct.name]);
-  while (options.size < 4) {
-    const random = candidates[Math.floor(Math.random() * candidates.length)];
-    options.add(random.name);
-  }
-
-  const shuffledOptions = Array.from(options).sort(() => Math.random() - 0.5);
-
-  document.getElementById('guessImage').src = correct.image;
-  document.getElementById('guessResult').textContent = '';
   
-  const optionButtons = shuffledOptions.map(name => {
-    return `<button onclick="checkGuess('${name}', '${correct.name}')" style="padding: 0.6rem 1.2rem; border-radius: 50px; border: none; background: #7a5c9e; color: white; cursor: pointer; font-weight: 600;">${name}</button>`;
-  });
-
-  document.getElementById('guessOptions').innerHTML = optionButtons.join('');
-}
-
-function checkGuess(selected, correct) {
-  const result = document.getElementById('guessResult');
-  if (selected === correct) {
-    result.textContent = "✅ Correct! 🎉";
-    result.style.color = 'green';
-  } else {
-    result.textContent = `❌ Oops! It was ${correct}`;
-    result.style.color = 'red';
-  }
-}
 </script>
      <script>
         // [All your existing JavaScript remains the same until the end of event listeners]
@@ -1461,6 +875,55 @@ function checkGuess(selected, correct) {
 
         // [Rest of your existing JavaScript remains the same]
     </script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+<script>
+  const fuseVideo = new Fuse(videoData, {
+    keys: ['title'],
+    threshold: 0.4
+  });
+
+  function handleVideoSearch() {
+    const input = document.getElementById('videoSearchInput').value.trim();
+    const suggestion = document.getElementById('videoSuggestion');
+    const gallery = document.getElementById('video-gallery');
+
+    // Clear old videos
+    gallery.innerHTML = '';
+
+    if (!input) {
+      suggestion.textContent = '';
+      videoData.forEach(renderVideoCard);
+      return;
+    }
+
+    const results = fuseVideo.search(input);
+    if (results.length === 0) {
+      suggestion.textContent = "No match found. Try different spelling.";
+    } else {
+      suggestion.textContent = results[0].score > 0.2 ? `Did you mean: ${results[0].item.title}?` : '';
+      results.forEach(result => renderVideoCard(result.item));
+    }
+  }
+
+  function renderVideoCard(video) {
+    const videoId = extractVideoId(video.url);
+    if (!videoId) return;
+    const card = document.createElement('div');
+    card.className = 'video-card';
+    card.innerHTML = `
+      <div class="video-container">
+        <iframe 
+          src="https://www.youtube.com/embed/${videoId}" 
+          title="${video.title}" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+      </div>
+      <div class="video-title">${video.title}</div>
+    `;
+    document.getElementById('video-gallery').appendChild(card);
+  }
+</script>
 
 
 </body>
