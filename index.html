@@ -977,135 +977,7 @@ body {
 
 
 
-        /* Gallery Button Styles */
-.gallery-btn-container {
-    text-align: center;
-    margin: 2rem 0;
-    position: relative;
-    z-index: 3;
-}
-
-.gallery-btn {
-    background: linear-gradient(45deg, var(--primary-color), var(--highlight-color));
-    color: white;
-    border: none;
-    padding: 1rem 2rem;
-    border-radius: 50px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 600;
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.8rem;
-    box-shadow: 0 5px 15px rgba(93, 78, 123, 0.3);
-    position: relative;
-    overflow: hidden;
-    min-width: 180px;
-    justify-content: center;
-}
-
-.gallery-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: 0.5s;
-}
-
-.gallery-btn:hover {
-    background: linear-gradient(45deg, var(--highlight-color), var(--secondary-color));
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(231, 126, 126, 0.4);
-}
-
-.gallery-btn:hover::before {
-    left: 100%;
-}
-
-.gallery-btn i {
-    font-size: 1.4rem;
-    transition: all 0.3s ease;
-}
-
-.gallery-btn:hover i {
-    transform: scale(1.2) rotate(5deg);
-}
-
-/* Animation for button click */
-@keyframes galleryClick {
-    0% { transform: scale(1); }
-    50% { transform: scale(0.95); }
-    100% { transform: scale(1); }
-}
-
-.gallery-btn:active {
-    animation: galleryClick 0.3s ease;
-}
-
-/* Floating photos animation */
-@keyframes floatPhotos {
-    0% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-10px) rotate(5deg); }
-    100% { transform: translateY(0) rotate(0deg); }
-}
-
-.gallery-btn:hover .photo-icon {
-    animation: floatPhotos 2s ease-in-out infinite;
-}
-
-.photo-icon {
-    display: inline-block;
-    position: relative;
-    width: 24px;
-    height: 24px;
-    margin-right: 5px;
-}
-
-.photo-icon::before,
-.photo-icon::after {
-    content: '';
-    position: absolute;
-    background: white;
-    border: 2px solid white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-
-.photo-icon::before {
-    width: 18px;
-    height: 14px;
-    transform: rotate(-5deg);
-    z-index: 2;
-}
-
-.photo-icon::after {
-    width: 16px;
-    height: 12px;
-    right: 0;
-    bottom: 0;
-    transform: rotate(8deg);
-    z-index: 1;
-}
-
-@media (max-width: 480px) {
-    .gallery-btn {
-        padding: 0.8rem 1.5rem;
-        min-width: 160px;
-        font-size: 0.9rem;
-    }
-    
-    .gallery-btn i {
-        font-size: 1.2rem;
-    }
-    
-    .photo-icon {
-        width: 20px;
-        height: 20px;
-    }
-}
+       
     </style>
 </head>
 <body>
@@ -1194,15 +1066,7 @@ body {
     </button>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-</div>
-    <!-- Gallery Button Section -->
-<div class="gallery-btn-container">
-    <button class="gallery-btn" onclick="navigateToGallery()">
-        <div class="photo-icon"></div>
-        <i class="fas fa-camera"></i>
-        View Family Gallery
-    </button>
-</div>
+
     <div style="text-align: center; margin: 3rem 0;">
         <button class="nav-btn" onclick="window.location.href='RAMVILAS.html'">RAMBILAS FAMILY</button>
         <button class="nav-btn" onclick="window.location.href='KAILASH.html'">KAILASH FAMILY </button>
@@ -2327,41 +2191,7 @@ function checkGuess(selected, correct) {
             });
         });
     });
-    function navigateToGallery() {
-    // Add click animation
-    anime({
-        targets: event.target,
-        scale: [1, 0.9, 1],
-        duration: 300,
-        easing: 'easeInOutQuad'
-    });
-    
-    // Create floating photos effect
-    for (let i = 0; i < 5; i++) {
-        const photo = document.createElement('div');
-        photo.innerHTML = '📷';
-        photo.style.position = 'fixed';
-        photo.style.fontSize = `${Math.random() * 20 + 15}px`;
-        photo.style.left = `${Math.random() * 100}%`;
-        photo.style.top = `${Math.random() * 100}%`;
-        photo.style.zIndex = '1000';
-        photo.style.pointerEvents = 'none';
-        photo.style.animation = `floatPhotos ${Math.random() * 2 + 1}s ease-in-out forwards`;
-        document.body.appendChild(photo);
-        
-        setTimeout(() => {
-            photo.remove();
-        }, 1000);
-    }
-    
-    // Page transition
-    document.body.style.opacity = '0.7';
-    document.body.style.transition = 'opacity 0.3s ease';
-    
-    setTimeout(() => {
-        window.location.href = 'https://ibpofficial.github.io/contact/gallery.html'; // Change this to your gallery page URL
-    }, 500);
-}
+   
 </script>
 
 </body>
