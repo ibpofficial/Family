@@ -882,7 +882,21 @@ body {
 
 
 
-         /* Dipol Bar Styles */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* Dipol Bar Styles */
 .dipol-bar {
     background: linear-gradient(135deg, #210129, #182848);
     padding: 1rem;
@@ -977,7 +991,30 @@ body {
 
 
 
-       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </style>
 </head>
 <body>
@@ -1010,7 +1047,7 @@ body {
     </a>
 </li>
              <li>
-    <a href="notes.html" class="nav-link" id="videosLink">
+    <a href="https://ibpofficial.github.io/Family/notes.html" class="nav-link" id="videosLink">
         <i class="fas fa-sticky-note"></i>
         <span>Notes</span>
     </a>
@@ -1055,7 +1092,7 @@ body {
     </div>
     <!-- Dipol Bar -->
 <div class="dipol-bar">
-   <button class="dipol-btn" onclick="window.location.href='https://ibpofficial.github.io/contact'">
+    <button class="dipol-btn" onclick="navigateTo('contact.html')">
         <i class="fas fa-phone"></i> Serch
     </button>
     <button class="dipol-btn" onclick="navigateTo('address.html')">
@@ -1066,6 +1103,9 @@ body {
     </button>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+</div>
+<!-- Gallery Button Section -->
+
 
     <div style="text-align: center; margin: 3rem 0;">
         <button class="nav-btn" onclick="window.location.href='RAMVILAS.html'">RAMBILAS FAMILY</button>
@@ -1073,7 +1113,6 @@ body {
         <button class="nav-btn" onclick="window.location.href='MAHESH.html'">MAHESH FAMILY</button>
         <button class="nav-btn" onclick="window.location.href='SHANKAR.html'">SHANKAR FAMILY</button>
         <!-- Add this as a new section in your HTML where you want it to appear -->
-        
 <section id="anniversary-section" style="background: linear-gradient(135deg, #1d5b96c9 0%, #fad0c4 100%); padding: 30px 0; margin: 40px 0; border-top: 3px solid #1c1272a8; border-bottom: 3px solid #8b0000;">
     <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
       <div class="anniversary-content" style="text-align: center; color: #060330; font-family: 'Arial', sans-serif;">
@@ -1841,7 +1880,7 @@ body {
             
             // Create and add the combined PB image
             const combinedImage = document.createElement('img');
-            combinedImage.src = 'both.png'; // Update with your PB image path
+            combinedImage.src = 'both.jpeg'; // Update with your PB image path
             combinedImage.alt = 'Bhawana and Prakash';
             combinedImage.className = 'combined-image';
             imageContainer.appendChild(combinedImage);
@@ -2117,19 +2156,14 @@ function checkGuess(selected, correct) {
                         </div>
                     </div>
                     
-                    <button class="gallery-btn" id="galleryBtn">
-                        📸 View Gallery
-                    </button>
+                   
                 </div>
             `;
             
             // Update memory section
             memoryContent.textContent = "Our family deities who protect and guide us through generations.";
             
-            // Add event listener for gallery button
-            document.getElementById('galleryBtn').addEventListener('click', function() {
-                window.location.href = 'gallery.html';
-            });
+           
             
             // Set currentGeneration to a special value to handle home button
             currentGeneration = { id: 'darshan', name: 'Darshan' };
@@ -2191,8 +2225,26 @@ function checkGuess(selected, correct) {
             });
         });
     });
-   
+    // Navigation function for Dipol buttons
+function navigateTo(page) {
+    // Add click animation
+    anime({
+        targets: event.target,
+        scale: [1, 0.9, 1],
+        duration: 300,
+        easing: 'easeInOutQuad'
+    });
+    
+    // Page transition effect
+    document.body.style.opacity = '0.7';
+    document.body.style.transition = 'opacity 0.3s ease';
+    
+    setTimeout(() => {
+        window.location.href = page;
+    }, 300);
+}
 </script>
+
 
 </body>
 </html>
